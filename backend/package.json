@@ -12,6 +12,7 @@
     "express": "^4.17.1",
     "jsdoc": "^3.6.3",
     "mongodb": "^3.3.5",
-    "mongoose": "^5.7.14"
+    "mongoose": "^5.7.14",
+    "typescript": "^3.7.3"
   }
 }

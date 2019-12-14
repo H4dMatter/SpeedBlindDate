@@ -38,7 +38,7 @@ app.post('/profile', function(req, res) {
 });
 
 //HIER soll docs hin
-app.get('/profile/:id',(req,res) => getProfile(req, res));
+app.get('/profile/:id', (req, res) => getProfile(req, res));
 
 /**
  * Gets a specific user profile based on user id
@@ -46,7 +46,7 @@ app.get('/profile/:id',(req,res) => getProfile(req, res));
  * @param {*object} res The response object
  */
 function getProfile(req, res) {
-	console.log("Profile of user with id " + req.params.id + " requested");
+	console.log('Profile of user with id ' + req.params.id + ' requested');
 	res.header('Access-Control-Allow-Origin', '*');
-	res.send({"name":"Paul","age":"15"});
+	res.send({ name: 'Paul', age: '15' });
 }
