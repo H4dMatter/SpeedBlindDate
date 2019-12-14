@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+        var app = angular.module('app', []);
+        app.controller('profileController', function($scope,$http) {
+            
+            // var xhttp = new XMLHttpRequest();
+            
+            
+            // xhttp.onreadystatechange = function() {
+            // if (this.readyState == 4 && this.status == 200) {
+            // console.log(JSON.parse(this.    responseText));
+            // $scope.profile=JSON.parse(xhttp.responseText);
+            // }}
+            
+            // xhttp.open("GET","http://127.0.0.1:3000/profile/1");
+            // xhttp.send();
+            
+
+    	    $http.get("http://127.0.0.1:3000/profile/1").then(function(response) {
+                console.log(response.data);
+                $scope.profile = response.data;
+            })
+        });
+</script>
+
+<body>
+
+<div ng-app="app" ng-controller="profileController">
+    <h1>Welcome to BlindDate</h1>
+    <!-- <p ng-repeat="x in profile"><label>{{x.name}}</label><br/></p> -->
+    <p>{{profile.name}}, age {{profile.age}}</p>
+    
+</div>
+
+</body>
+
+</html>
