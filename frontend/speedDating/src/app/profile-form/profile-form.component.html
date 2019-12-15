@@ -1,0 +1,54 @@
+<form #profileForm="ngForm" (ngSubmit)="onClickSubmit(profileForm.value)">
+	<fieldset>
+		<legend>Profile</legend>
+		<div class="form-group">
+			<label for="firstName">First Name</label>
+			<input
+				type="text"
+				class="form-control"
+				id="firstName"
+				placeholder="Enter your first name"
+				name="firstName"
+				ngModel
+			/>
+		</div>
+		<div class="form-group">
+			<label for="lastName">Last Name</label>
+			<input
+				type="text"
+				class="form-control"
+				id="lastName"
+				placeholder="Enter your last name"
+				name="lastName"
+				ngModel
+			/>
+		</div>
+		<div class="form-group">
+			<label for="age">Age</label>
+			<input
+				type="number"
+				class="form-control"
+				id="age"
+				placeholder="Enter your age"
+				name="age"
+				ngModel
+			/>
+		</div>
+		<div class="form-group">
+			<label for="hobbies">Example textarea</label>
+			<textarea
+				class="form-control"
+				id="hobbies"
+				rows="3"
+				name="hobbies"
+				ngModel
+			></textarea>
+			<small id="hobbiesHelp" class="form-text text-muted"
+				>Please enter as many hobbies as you like, seperated by a comma.</small
+			>
+		</div>
+		<button type="submit" class="btn btn-primary">
+			Submit
+		</button>
+	</fieldset>
+</form>

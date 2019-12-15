@@ -1,6 +1,10 @@
 var express = require('express');
 var app = express();
 var http = require('http');
+const mongoose = require('mongoose');
+var cors = require('cors');
+
+app.use(cors());
 
 app.listen(3000, function() {
 	console.log('Example app on Port 3000');
@@ -35,6 +39,8 @@ app.delete('/user/:username', function(req, res) {
 
 app.post('/profile', function(req, res) {
 	console.log('Profile created');
+	console.log(req.params);
+	res.send('OK');
 });
 
 //HIER soll docs hin
@@ -47,6 +53,18 @@ app.get('/profile/:id', (req, res) => getProfile(req, res));
  */
 function getProfile(req, res) {
 	console.log('Profile of user with id ' + req.params.id + ' requested');
-	res.header('Access-Control-Allow-Origin', '*');
-	res.send({ name: 'Paul', age: '15' });
+	// res.header('Access-Control-Allow-Origin', '*');
+
+	mongoose.connect('mongodb://localhost:27017/speeddating', {
+		useNewUrlParser: true
+	});
 }
+
+var profileSchema = new mongoose.Schema({
+	firstName: String,
+	lastName: String,
+	age: Number,
+	hobbies: [String]
+});
+
+var Profile = mongoose.model('Profile', profileSchema);
