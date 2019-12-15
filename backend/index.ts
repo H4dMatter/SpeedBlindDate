@@ -1,12 +1,10 @@
-<<<<<<< HEAD:backend/index.ts
-var express = require('express');
+
 var app = express();
 var http = require('http');
-const mongoose = require('mongoose');
+
 var cors = require('cors');
 
 app.use(cors());
-=======
 //Packages
 const express = require('express');
 const router = express.Router();
@@ -15,7 +13,6 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const passport = require('passport');
 const User = require('./dbConfigUser');
->>>>>>> login:backend/index.js
 
 //Brings in local strategy from passport-config file
 require('./passport-config')(passport);
@@ -41,7 +38,6 @@ router.post('/user', (req, res) => registrationUser(req, res));
 //Routes
 router.get('/', (req, res) => {res.send('LoginPage')});
 
-<<<<<<< HEAD:backend/index.ts
 app.post('/profile', function(req, res) {
 	console.log('Profile created');
 	console.log(req.params);
@@ -50,7 +46,6 @@ app.post('/profile', function(req, res) {
 
 //HIER soll docs hin
 app.get('/profile/:id', (req, res) => getProfile(req, res));
-=======
 //User login
 router.post('/user/login', passport.authenticate('local'), (req, res) => {res.send('logged in')});
 
@@ -176,14 +171,12 @@ function isLoggedIn(req, res, next) {
     }
 }
 
->>>>>>> login:backend/index.js
 
 /**
  * This function executes logout-functionality
  * @param req - Represents the request object
  * @param res - Represents the response object
  */
-<<<<<<< HEAD:backend/index.ts
 function getProfile(req, res) {
 	console.log('Profile of user with id ' + req.params.id + ' requested');
 	// res.header('Access-Control-Allow-Origin', '*');
@@ -201,7 +194,6 @@ var profileSchema = new mongoose.Schema({
 });
 
 var Profile = mongoose.model('Profile', profileSchema);
-=======
 function logoutUser(req, res) {
     req.logout();
     res.send('Successfully logged out');
@@ -242,4 +234,3 @@ function deleteUser(req, res) {
 }
 
 module.exports = router;
->>>>>>> login:backend/index.js

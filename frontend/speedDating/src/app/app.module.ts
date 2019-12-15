@@ -19,36 +19,13 @@ import { ProfileFormComponent } from './profile-form/profile-form.component';
 		AppComponent,
 		ProfileComponent,
 		NavbarComponent,
-		ProfileFormComponent
+    ProfileFormComponent,
+    LoginComponent,
+    RegisterComponent,
+    ShowUserComponent
 	],
 	imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
 	providers: [],
 	bootstrap: [AppComponent]
 })
 export class AppModule {}
-
-
-
-
-import { FormsModule } from "@angular/forms";
-
-import { HttpClientModule} from "@angular/common/http";
-
-
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    ShowUserComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
