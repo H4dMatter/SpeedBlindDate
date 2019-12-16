@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
+import { Globals } from '../globals';
 
 @Component({
 	selector: 'app-profile-form',
@@ -7,13 +8,14 @@ import { HttpService } from '../http.service';
 	styleUrls: ['./profile-form.component.scss']
 })
 export class ProfileFormComponent implements OnInit {
-	constructor(private http: HttpService) {}
+	constructor(private http: HttpService, public globals: Globals) {}
 
-	firstName: String = null;
-	lastName: String = null;
-	age: Number = null;
-	hobbies: [String] = null;
-	gender: String = null;
+	username: string = this.globals.username;
+	firstName: string = 'anne';
+	lastName: string = null;
+	age: number = null;
+	hobbies: [string] = null;
+	gender: string = null;
 	preferences: {
 		genderPref: String;
 		ageRange: {
