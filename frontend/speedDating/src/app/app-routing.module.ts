@@ -7,19 +7,11 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ShowUserComponent } from './show-user/show-user.component';
 
-
 const routes: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'profile', component: ProfileFormComponent },
-  {path: 'user', component: RegisterComponent},
-  {path: 'user/{username}', component: ShowUserComponent }
-];
-
-
-const routes: Routes = [
-  {path: '', component:LoginComponent},
-  {path: 'profile', component: ProfileFormComponent},
-  {path: 'user', component:RegisterComponent}
+	{ path: '', component: LoginComponent },
+	{ path: 'profile', component: ProfileFormComponent },
+	{ path: 'user', component: RegisterComponent },
+	{ path: 'user/{username}', component: ShowUserComponent }
 ];
 
 @NgModule({
@@ -27,5 +19,3 @@ const routes: Routes = [
 	exports: [RouterModule]
 })
 export class AppRoutingModule {}
-
-
