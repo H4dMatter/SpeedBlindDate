@@ -215,7 +215,7 @@ async function registrationUser(req, res) {
 
 			//console.log(hashedPW + " " + user);
 			user.save();
-			res.json({msg: 'You are successfully registe
+			res.json({msg: 'You are successfully registered'})
 
 			//Redirect
 		}

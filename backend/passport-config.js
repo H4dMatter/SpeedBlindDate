@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('./dbConfigUser');
+const User = require('./dbConfigUser').User;
 
 
 //PassportAuthentification Functions
