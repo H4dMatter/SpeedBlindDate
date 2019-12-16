@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const passport = require('passport');
-const User = require('./dbConfigUser');
+const User = require('./dbConfigUser').User;
+const Profile = require('./dbConfigUser').Profile;
 
 var app = express();
 var http = require('http');
@@ -30,26 +31,7 @@ router.use(
 router.use(passport.initialize());
 router.use(passport.session());
 
-var profileSchema = new mongoose.Schema(
-	{
-		firstName: String,
-		lastName: String,
-		age: Number,
-		hobbies: [String],
-		gender: String,
-		preferences: {
-			genderPref: String,
-			ageRange: {
-				minAge: Number,
-				maxAge: Number
-			}
-		},
-		images: [{ data: 'Buffer', contentType: String }]
-	},
-	{ collection: 'profiles' }
-);
-
-var Profile = mongoose.model('Profile', profileSchema);
+//Mongoose Schemas and Models
 
 //User Registration - instanciates new user and saves it to database
 router.post('/user', (req, res) => registrationUser(req, res));
@@ -58,6 +40,20 @@ router.post('/user', (req, res) => registrationUser(req, res));
 router.get('/', (req, res) => {
 	res.send('LoginPage');
 });
+
+/**
+ * This function executes logout-functionality
+ * @param req - Represents the request object
+ * @param res - Represents the response object
+ */
+function getProfile(req, res) {
+	console.log(req.params.username);
+	Profile.findOne({ username: req.params.username }, (err, user) => {
+		if (err) console.log('error');
+		console.log('Profile of user with name ' + req.params.username + ' requested');
+		res.json(user);
+	});
+}
 
 //TODO: Images!
 router.post('/profile', function(req, res) {
@@ -70,6 +66,7 @@ router.post('/profile', function(req, res) {
 	});
 
 	var profile = new Profile({
+		username: req.body.username,
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
 		age: req.body.age,
@@ -86,15 +83,14 @@ router.post('/profile', function(req, res) {
 	console.log(profile);
 
 	profile.save().then(() => res.send('Profile created successfully'));
-	//res.send('Hello');
 });
 
 //gets specific profile by username
-app.get('/profile/:username', (req, res) => getProfile(req, res));
+router.get('/profile/:username', (req, res) => getProfile(req, res));
 
 //User login
 router.post('/user/login', passport.authenticate('local'), (req, res) => {
-	res.json({msg: 'Successfully logged in'});
+	res.send('logged in');
 });
 
 //User logout --> dashboard
@@ -130,7 +126,7 @@ async function updateUser(req, res) {
 	});
 
 	if (errors.length > 0) {
-		res.json(errors);
+		res.send(errors);
 	} else {
 		if (!req.body.email) {
 			await User.findOne({ username: req.params.username }, (err, user) => {
@@ -161,7 +157,7 @@ async function updateUser(req, res) {
 			if (user) {
 				res.json(userToBeUpdated);
 			} else {
-				res.json({msg: 'No user found'});
+				res.send('No user found');
 			}
 		});
 	}
@@ -219,7 +215,7 @@ async function registrationUser(req, res) {
 
 			//console.log(hashedPW + " " + user);
 			user.save();
-			res.json({msg: 'You are successfully registered'});
+			res.send('well done');
 
 			//Redirect
 		}
@@ -240,15 +236,6 @@ function isLoggedIn(req, res, next) {
 	} else {
 		res.send('Not logged in');
 	}
-}
-
-/**
- * This function executes logout-functionality
- * @param req - Represents the request object
- * @param res - Represents the response object
- */
-function getProfile(req, res) {
-	console.log('Profile of user with name ' + req.params.username + ' requested');
 }
 
 function logoutUser(req, res) {
@@ -280,7 +267,7 @@ function deleteUser(req, res) {
 		if (user) {
 			res.json(user);
 		} else {
-			res.json({msg: 'No user found'});
+			res.send('No user found');
 		}
 	});
 	//res.send('delete');
