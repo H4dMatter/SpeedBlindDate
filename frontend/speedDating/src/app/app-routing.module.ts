@@ -9,8 +9,7 @@ import { ShowUserComponent } from './show-user/show-user.component';
 
 const routes: Routes = [
 	{ path: '', component: LoginComponent },
-	{ path: 'editProfile', component: ProfileFormComponent },
-	{ path: 'profile', component: ProfileComponent },
+	{ path: 'profile', component: ProfileFormComponent },
 	{ path: 'user', component: RegisterComponent },
 	{ path: 'user/{username}', component: ShowUserComponent }
 ];

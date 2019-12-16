@@ -3,31 +3,25 @@
 		Blind Date
 	</a>
 
-	<button
-		class="navbar-toggler"
-		type="button"
-		(click)="toggleNavbar()"
-		id="navbarColor01"
-		*ngIf="globals.isLoggedIn"
-	>
+	<button class="navbar-toggler" type="button" (click)="toggleNavbar()" id="navbarColor01">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
-	<div class="collapse navbar-collapse" [ngClass]="{ show: navbarOpen }" *ngIf="globals.isLoggedIn">
+	<div class="collapse navbar-collapse" [ngClass]="{ show: navbarOpen }">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
 				<a class="nav-link" href="#" routerLink="/user/{username}">User Info</a>
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="#" routerLink="/editProfile">Profile</a>
+				<a class="nav-link" href="#" routerLink="/profile">Profile</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#" routerLink="/profile">show profile</a>
+				<a class="nav-link" href="#">Chat Room</a>
 			</li>
 		</ul>
-		<button type="button" class="btn btn-secondary" (click)="logoutUser()">
-			Logout
-		</button>
+    <button type="button" class="btn btn-secondary" (click)="logoutUser()">
+      Logout
+    </button>
 	</div>
 </nav>

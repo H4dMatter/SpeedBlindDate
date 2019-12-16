@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
-import { Globals } from '../globals';
 
 @Component({
 	selector: 'app-profile-form',
@@ -8,27 +7,24 @@ import { Globals } from '../globals';
 	styleUrls: ['./profile-form.component.scss']
 })
 export class ProfileFormComponent implements OnInit {
-	constructor(private http: HttpService, public globals: Globals) {}
+	constructor(private http: HttpService) {}
 
-	username: string = this.globals.username;
-	firstName: string = 'anne';
-	lastName: string = null;
-	age: number = null;
-	hobbies: [string] = ['null', 'nichts'];
-	gender: string = null;
+	firstName: String = null;
+	lastName: String = null;
+	age: Number = null;
+	hobbies: [String] = null;
+	gender: String = null;
 	preferences: {
-		genderPref: string;
+		genderPref: String;
 		ageRange: {
-			minAge: number;
-			maxAge: number;
+			minAge: Number;
+			maxAge: Number;
 		};
 	} = null;
-	images: [{ data: 'Buffer'; contentType: string }] = null;
+	images: [{ data: 'Buffer'; contentType: String }] = null;
 
 	onClickSubmit(data) {
-		data.username = this.username;
-		console.log(data);
-		this.http.addProfile(data).subscribe(res => console.log(res));
+		this.http.addProfile(data).subscribe(data => console.log(data));
 	}
 
 	ngOnInit() {}
