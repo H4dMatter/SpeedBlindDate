@@ -11,4 +11,8 @@ export class HttpService {
 		console.log(data);
 		return this.http.post('http://localhost:5000/profile', data, { responseType: 'text' });
 	}
+
+	getBeer() {
+		return this.http.get('https://api.openbrewerydb.org/breweries');
+	}
 }

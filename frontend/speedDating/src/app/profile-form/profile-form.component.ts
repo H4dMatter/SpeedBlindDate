@@ -9,7 +9,7 @@ import { HttpService } from '../http.service';
 export class ProfileFormComponent implements OnInit {
 	constructor(private http: HttpService) {}
 
-	firstName: String = 'null';
+	firstName: String = null;
 	lastName: String = null;
 	age: Number = null;
 	hobbies: [String] = null;
