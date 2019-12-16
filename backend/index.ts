@@ -12,114 +12,160 @@ var http = require('http');
 
 var cors = require('cors');
 
-app.use(cors());
-
 //Brings in local strategy from passport-config file
 require('./passport-config')(passport);
 
-
 //Uses
-router.use(express.json());         //to parse body objects within URL
-router.use(express.urlencoded());
-router.use(session(
-    {
-        secret: 'speeddate',
-        resave: true,
-        saveUninitialized: true
-    }));
+router.use(cors());
+router.use(express.json()); //to parse body objects within URL
+router.use(express.urlencoded({ extended: true }));
+router.use(
+	session({
+		secret: 'speeddate',
+		resave: true,
+		saveUninitialized: true
+	})
+);
 
 router.use(passport.initialize());
 router.use(passport.session());
 
+var profileSchema = new mongoose.Schema(
+	{
+		firstName: String,
+		lastName: String,
+		age: Number,
+		hobbies: [String],
+		gender: String,
+		preferences: {
+			genderPref: String,
+			ageRange: {
+				minAge: Number,
+				maxAge: Number
+			}
+		},
+		images: [{ data: 'Buffer', contentType: String }]
+	},
+	{ collection: 'profiles' }
+);
+
+var Profile = mongoose.model('Profile', profileSchema);
 
 //User Registration - instanciates new user and saves it to database
 router.post('/user', (req, res) => registrationUser(req, res));
 
 //Routes
-router.get('/', (req, res) => {res.send('LoginPage')});
-
-app.post('/profile', function(req, res) {
-	console.log('Profile created');
-	console.log(req.params);
-	res.send('OK');
+router.get('/', (req, res) => {
+	res.send('LoginPage');
 });
 
-//HIER soll docs hin
-app.get('/profile/:id', (req, res) => getProfile(req, res));
+//TODO: Images!
+router.post('/profile', function(req, res) {
+	console.log('Profile created, Body:');
+	console.log(req.body);
+
+	let hobbies = req.body.hobbies.split(',');
+	hobbies.forEach((element, index, hobbies) => {
+		hobbies[index] = element.trim();
+	});
+
+	var profile = new Profile({
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		age: req.body.age,
+		hobbies: hobbies,
+		gender: req.body.gender,
+		preferences: {
+			genderPref: req.body.genderPref,
+			ageRange: {
+				minAge: req.body.minAge,
+				maxAge: req.body.maxAge
+			}
+		}
+	});
+	console.log(profile);
+
+	profile.save().then(() => res.send('Profile created successfully'));
+	//res.send('Hello');
+});
+
+//gets specific profile by username
+app.get('/profile/:username', (req, res) => getProfile(req, res));
+
 //User login
-router.post('/user/login', passport.authenticate('local'), (req, res) => {res.send('logged in')});
+router.post('/user/login', passport.authenticate('local'), (req, res) => {
+	res.send('logged in');
+});
 
 //User logout --> dashboard
-router.get('/user/logout', (req,res) => logoutUser(req, res));
+router.get('/user/logout', (req, res) => logoutUser(req, res));
 
 //ShowsUser
 router.get('/user/:username', (req, res) => showUser(req, res));
 
 //Deletes user
-router.delete('/user/:username', (req,res) => deleteUser(req, res));
+router.delete('/user/:username', (req, res) => deleteUser(req, res));
 
 //Update user
-router.put('/user/:username', (req,res) => updateUser(req, res));
+router.put('/user/:username', (req, res) => updateUser(req, res));
 
 //Functions
 
-async function updateUser(req, res){
+async function updateUser(req, res) {
+	const errors = [];
+	let userToBeUpdated;
 
-    const errors = [];
-    let userToBeUpdated;
+	await User.findOne({ username: req.body.username }, (err, user) => {
+		if (err) console.log('error'); //redirect
+		if (user) {
+			errors.push({ msg: 'User with this username already exists' });
+		}
+	});
 
-    await User.findOne({username: req.body.username}, (err, user) => {
-        if (err) console.log('error'); //redirect
-        if (user) {
-            errors.push({msg: "User with this username already exists"});
-        }
-    });
+	await User.findOne({ email: req.body.email }, async (err, user) => {
+		if (err) console.log('error'); //redirect
+		if (user) {
+			errors.push({ msg: 'User with this email already exists' });
+		}
+	});
 
-    await User.findOne({email: req.body.email}, async (err, user) => {
-        if (err) console.log('error'); //redirect
-        if (user) {
-            errors.push({msg: "User with this email already exists"});
-        }
-    });
+	if (errors.length > 0) {
+		res.send(errors);
+	} else {
+		if (!req.body.email) {
+			await User.findOne({ username: req.params.username }, (err, user) => {
+				if (err) console.log('error'); //redirect
+				if (user) {
+					userToBeUpdated = {
+						email: user.email,
+						username: req.body.username
+					};
+				}
+			});
+		} else {
+			if (!req.body.username) {
+				userToBeUpdated = {
+					email: req.body.email,
+					username: req.params.username
+				};
+			} else {
+				userToBeUpdated = {
+					email: req.body.email,
+					username: req.body.username
+				};
+			}
+		}
 
-    if (errors.length > 0){
-        res.send(errors);
-    } else {
-        if(!req.body.email){
-            await User.findOne({username: req.params.username}, (err, user) => {
-                if (err) console.log('error'); //redirect
-                if (user) {
-                    userToBeUpdated = {
-                        email: user.email,
-                        username: req.body.username
-                    };
-                }
-            });
-        } else {
-            if(!req.body.username){
-                userToBeUpdated = {
-                    email: req.body.email,
-                    username: req.params.username
-                };
-            } else {
-                userToBeUpdated = {
-                    email: req.body.email,
-                    username: req.body.username
-                };
-            }
-        }
-
-        User.findOneAndUpdate({username: req.params.username}, userToBeUpdated, (err, user) => {
-            if (err) console.log('error'); //redirect
-            if (user) {
-                res.json(userToBeUpdated);
-            } else {
-                res.send('No user found');
-            }
-        });
-    }
+		User.findOneAndUpdate({ username: req.params.username }, userToBeUpdated, (err, user) => {
+			if (err) console.log('error'); //redirect
+			if (user) {
+				res.json(userToBeUpdated);
+			} else {
+				res.send('No user found');
+			}
+		});
+	}
 }
-
 
 /**
  * Registrates new user - but checks before if user already exists
@@ -128,61 +174,59 @@ async function updateUser(req, res){
  *
  */
 async function registrationUser(req, res) {
+	const errors = [];
 
-    const errors = [];
+	await User.findOne({ username: req.body.username }, (err, user) => {
+		if (err) console.log('error'); //redirect
+		if (user) {
+			errors.push({ msg: 'User with this username already exists' });
+		}
+	});
 
-    await User.findOne({username: req.body.username}, (err, user) => {
-        if (err) console.log('error'); //redirect
-        if (user) {
-            errors.push({msg: "User with this username already exists"});
-        }
-    });
+	await User.findOne({ email: req.body.email }, async (err, user) => {
+		if (err) console.log('error'); //redirect
+		if (user) {
+			errors.push({ msg: 'User with this email already exists' });
+		}
+	});
 
-    await User.findOne({email: req.body.email}, async (err, user) => {
-        if (err) console.log('error'); //redirect
-        if (user) {
-            errors.push({msg: "User with this email already exists"});
-        }
-    });
+	try {
+		const { email, username, passwordOne, passwordTwo } = req.body;
 
+		// If not all required fields are filled in or password-mismatch
+		if (!email || !username || !passwordOne || !passwordTwo) {
+			errors.push({ msg: 'Fill in all required fields' });
+		}
 
-    try {
-        const {email, username, passwordOne, passwordTwo} = req.body;
+		// On password-mismatch
+		if (passwordOne != passwordTwo) {
+			errors.push({ msg: 'Password One does not match password Two' });
+		}
 
-        // If not all required fields are filled in or password-mismatch
-        if (!email || !username || !passwordOne || !passwordTwo) {
-            errors.push({msg: "Fill in all required fields"});
-        }
+		//Errors are found
+		if (errors.length > 0) {
+			res.json(errors);
+			//redirect
+		} else {
+			//Valid input
+			const hashedPW = await bcrypt.hash(passwordOne, 10);
 
-        // On password-mismatch
-        if (passwordOne != passwordTwo) {
-            errors.push({msg: "Password One does not match password Two"});
-        }
+			const user = new User({
+				email: req.body.email,
+				username: req.body.username,
+				password: hashedPW
+			});
 
-        //Errors are found
-        if (errors.length > 0) {
-            res.json(errors);
-            //redirect
-        } else {           //Valid input
-            const hashedPW = await bcrypt.hash(passwordOne, 10);
+			//console.log(hashedPW + " " + user);
+			user.save();
+			res.send('well done');
 
-            const user = new User({
-                email: req.body.email,
-                username: req.body.username,
-                password: hashedPW
-            });
-
-            //console.log(hashedPW + " " + user);
-            user.save();
-            res.send("well done")
-
-            //Redirect
-        }
-    } catch {
-        //redirect
-    }
+			//Redirect
+		}
+	} catch {
+		//redirect
+	}
 }
-
 
 /**
  * Checks if user is authenticated - if true: redirection to critical sides possible
@@ -191,13 +235,12 @@ async function registrationUser(req, res) {
  * @param next - calls the next middleware statement on stack
  */
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    } else {
-        res.send("Not logged in");
-    }
+	if (req.isAuthenticated()) {
+		return next();
+	} else {
+		res.send('Not logged in');
+	}
 }
-
 
 /**
  * This function executes logout-functionality
@@ -205,27 +248,13 @@ function isLoggedIn(req, res, next) {
  * @param res - Represents the response object
  */
 function getProfile(req, res) {
-	console.log('Profile of user with id ' + req.params.id + ' requested');
-	// res.header('Access-Control-Allow-Origin', '*');
-
-	mongoose.connect('mongodb://localhost:27017/speeddating', {
-		useNewUrlParser: true
-	});
+	console.log('Profile of user with name ' + req.params.username + ' requested');
 }
 
-var profileSchema = new mongoose.Schema({
-	firstName: String,
-	lastName: String,
-	age: Number,
-	hobbies: [String]
-});
-
-var Profile = mongoose.model('Profile', profileSchema);
 function logoutUser(req, res) {
-    req.logout();
-    res.send('Successfully logged out');
+	req.logout();
+	res.send('Successfully logged out');
 }
-
 
 /**
  * Shows loginData user
@@ -233,12 +262,11 @@ function logoutUser(req, res) {
  * @param res - Represents the response object
  */
 function showUser(req, res) {
-    User.findOne({username: req.params.username}, (err, user) => {
-        if (err) console.log('error'); //redirect
-        res.json(user);
-    })
+	User.findOne({ username: req.params.username }, (err, user) => {
+		if (err) console.log('error'); //redirect
+		res.json(user);
+	});
 }
-
 
 /**
  * Deletes user
@@ -247,17 +275,15 @@ function showUser(req, res) {
  *
  */
 function deleteUser(req, res) {
-
-    User.findOneAndDelete({username: req.params.username}, (err, user) => {
-        if (err) console.log('error'); //redirect
-        if (user) {
-            res.json(user);
-        } else {
-            res.send('No user found');
-        }
-    });
-    //res.send('delete');
-
+	User.findOneAndDelete({ username: req.params.username }, (err, user) => {
+		if (err) console.log('error'); //redirect
+		if (user) {
+			res.json(user);
+		} else {
+			res.send('No user found');
+		}
+	});
+	//res.send('delete');
 }
 
 module.exports = router;

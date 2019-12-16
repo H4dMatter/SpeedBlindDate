@@ -16,6 +16,11 @@ const routes: Routes = [
 ];
 
 
+const routes: Routes = [
+  {path: '', component:LoginComponent},
+  {path: 'profile', component: ProfileFormComponent},
+  {path: 'user', component:RegisterComponent}
+];
 
 @NgModule({
 	imports: [RouterModule.forRoot(routes)],

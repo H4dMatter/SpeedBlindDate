@@ -1,13 +1,13 @@
 <form #profileForm="ngForm" (ngSubmit)="onClickSubmit(profileForm.value)">
 	<fieldset>
-		<legend>Profile</legend>
+		<h1>Profile</h1>
 		<div class="form-group">
 			<label for="firstName">First Name</label>
 			<input
 				type="text"
 				class="form-control"
 				id="firstName"
-				placeholder="Enter your first name"
+				[placeholder]="firstName == null ? 'Enter your last name' : null"
 				name="firstName"
 				ngModel
 			/>
@@ -18,7 +18,7 @@
 				type="text"
 				class="form-control"
 				id="lastName"
-				placeholder="Enter your last name"
+				[placeholder]="lastName == null ? 'Enter your last name' : null"
 				name="lastName"
 				ngModel
 			/>
@@ -35,17 +35,54 @@
 			/>
 		</div>
 		<div class="form-group">
-			<label for="hobbies">Example textarea</label>
-			<textarea
-				class="form-control"
-				id="hobbies"
-				rows="3"
-				name="hobbies"
-				ngModel
-			></textarea>
+			<label for="hobbies">Hobbies</label>
+			<textarea class="form-control" id="hobbies" rows="3" name="hobbies" ngModel></textarea>
 			<small id="hobbiesHelp" class="form-text text-muted"
 				>Please enter as many hobbies as you like, seperated by a comma.</small
 			>
+		</div>
+		<div class="form-group form-inline">
+			<label for="gender">Gender</label>
+			<select id="gender" class="custom-select" name="gender" ngModel>
+				<option value="male">male</option>
+				<option value="female">female</option>
+				<option value="other" selected="">other</option>
+			</select>
+		</div>
+		<div class="form-group" id="preferencesGroup">
+			<label for="preferences">Preferences</label>
+			<div class="form-group form-inline" id="preferences">
+				<div class="form-group ">
+					<label for="genderPref">Gender</label>
+					<select class="custom-select" id="genderPref" name="genderPref" ngModel>
+						<option value="male">male</option>
+						<option value="female">female</option>
+						<option value="both" selected>both</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="minAge">Minimum age</label>
+					<input
+						type="number"
+						class="form-control"
+						id="minAge"
+						placeholder="Prefered minimum age"
+						name="minAge"
+						ngModel
+					/>
+				</div>
+				<div class="form-group">
+					<label for="maxAge">Maximum age</label>
+					<input
+						type="number"
+						class="form-control"
+						id="maxAge"
+						placeholder="Prefered maximum age"
+						name="maxAge"
+						ngModel
+					/>
+				</div>
+			</div>
 		</div>
 		<button type="submit" class="btn btn-primary">
 			Submit
