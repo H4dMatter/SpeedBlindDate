@@ -1,23 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../http.service';
+import {HttpService} from '../http.service';
 
 @Component({
-	selector: 'app-show-user',
-	templateUrl: './show-user.component.html',
-	styleUrls: ['./show-user.component.scss']
+  selector: 'app-show-user',
+  templateUrl: './show-user.component.html',
+  styleUrls: ['./show-user.component.scss']
 })
 export class ShowUserComponent implements OnInit {
-	userInformation: Object;
 
-	constructor(private _http: HttpService) {}
+  userInformation: Object;
 
-	ngOnInit() {}
+  constructor(private _http: HttpService) { }
 
-	onClickSubmitInfo(data) {
-		console.log(data);
-	}
+  ngOnInit() {
+    }
 
-	onClickSubmitPW(data) {
-		console.log(data);
-	}
+  onClickSubmitInfo(data) {
+    console.log(data);
+  }
+
+  onClickSubmitPW(data) {
+    console.log(data);
+  }
+
 }

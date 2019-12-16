@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Globals } from './globals';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class HttpService {
-	constructor(private http: HttpClient, public globals: Globals) {}
+	constructor(private http: HttpClient) {}
 
 	addProfile(data) {
 		console.log(data);
@@ -14,34 +13,30 @@ export class HttpService {
 	}
 
 	registrationUser(data) {
-		console.log(data);
-		return this.http.post('http://localhost:5000/user', data, { responseType: 'json' });
-	}
+	  console.log(data);
+    return this.http.post('http://localhost:5000/user', data, { responseType: 'json' });
+  }
 
-	showUser() {
-		return this.http.get('http://localhost:5000/user/:username', { responseType: 'json' });
-	}
+  showUser() {
+    return this.http.get('http://localhost:5000/user/:username',{ responseType: 'json' });
+  }
 
-	passportAuthenticate(data) {
-		console.log(data);
-		return this.http.post('http://localhost:5000/user/login', data, { responseType: 'json' });
-	}
+  passportAuthenticate(data) {
+    console.log(data);
+    return this.http.post('http://localhost:5000/user/login', data, { responseType: 'json' });
+  }
 
-	logoutUser() {
-		return this.http.get('http://localhost:5000/user/logout', { responseType: 'text' });
-	}
+  logoutUser() {
+    return this.http.get('http://localhost:5000/user/logout', { responseType: 'text' });
+  }
 
-	deleteUser() {
-		return this.http.delete('http://localhost:5000/user/:username', { responseType: 'json' });
-	}
+  deleteUser() {
+    return this.http.delete('http://localhost:5000/user/:username',{ responseType: 'json' });
+  }
 
-	updateUser(data) {
-		console.log(data);
-		return this.http.put('http://localhost:5000/user/:username', data, { responseType: 'json' });
-	}
+  updateUser(data) {
+    console.log(data);
+    return this.http.put('http://localhost:5000/user/:username', data, { responseType: 'json' });
+  }
 
-	getProfile() {
-		console.log(this.globals.username);
-		return this.http.get('http://localhost:5000/profile/' + this.globals.username);
-	}
 }

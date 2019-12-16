@@ -7,9 +7,9 @@
 				type="text"
 				class="form-control"
 				id="firstName"
-				[placeholder]="firstName == null ? 'Enter your first name' : ''"
+				[placeholder]="firstName == null ? 'Enter your last name' : null"
 				name="firstName"
-				[(ngModel)]="firstName"
+				ngModel
 			/>
 		</div>
 		<div class="form-group">
@@ -18,9 +18,9 @@
 				type="text"
 				class="form-control"
 				id="lastName"
-				[placeholder]="lastName == null ? 'Enter your last name' : ''"
+				[placeholder]="lastName == null ? 'Enter your last name' : null"
 				name="lastName"
-				[(ngModel)]="lastName"
+				ngModel
 			/>
 		</div>
 		<div class="form-group">
@@ -31,21 +31,15 @@
 				id="age"
 				placeholder="Enter your age"
 				name="age"
-				[(ngModel)]="age"
+				ngModel
 			/>
 		</div>
 		<div class="form-group">
 			<label for="hobbies">Hobbies</label>
-			<textarea
-				class="form-control"
-				id="hobbies"
-				rows="3"
-				name="hobbies"
-				[(ngModel)]="hobbies"
-			></textarea>
-			<small id="hobbiesHelp" class="form-text text-muted">
-				Please enter as many hobbies as you like, seperated by a comma.
-			</small>
+			<textarea class="form-control" id="hobbies" rows="3" name="hobbies" ngModel></textarea>
+			<small id="hobbiesHelp" class="form-text text-muted"
+				>Please enter as many hobbies as you like, seperated by a comma.</small
+			>
 		</div>
 		<div class="form-group form-inline">
 			<label for="gender">Gender</label>
