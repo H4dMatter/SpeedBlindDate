@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Globals } from '../globals';
 
 @Component({
 	selector: 'app-navbar',
@@ -12,7 +13,7 @@ export class NavbarComponent implements OnInit {
 		this.navbarOpen = !this.navbarOpen;
 	}
 
-	constructor() {}
+	constructor(public globals: Globals) {}
 
 	ngOnInit() {}
 }

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
 export class Globals {
-	user: string = 'test';
-	isLoggedIn: Boolean = false;
+	username: string = 'max';
+	isLoggedIn: boolean = false;
 }
