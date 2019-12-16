@@ -94,7 +94,7 @@ app.get('/profile/:username', (req, res) => getProfile(req, res));
 
 //User login
 router.post('/user/login', passport.authenticate('local'), (req, res) => {
-	res.json({msg: 'Successfully logged in'});
+	res.send({msg: 'Successfully logged in'});
 });
 
 //User logout --> dashboard

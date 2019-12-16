@@ -11,7 +11,7 @@
 ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
 
 <form #ChangeLoginForm="ngForm" (ngSubmit)="onClickSubmitInfo(ChangeLoginForm.value)">
-  <fieldset *ngFor="let currentUser of userInformation; let i = index">
+  <fieldset>
     <legend>Login Information</legend>
     <div class="form-group" >
       <label for="email">Email address</label>
@@ -20,8 +20,8 @@ ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
         class="form-control"
         id="email"
         name="email"
-        placeholder= {{currentUser.website_url}}
-        ngModel
+        placeholder="Please insert changed email address"
+        [(ngModel)]="userInformation"
       />
     </div>
     <div class="form-group">
@@ -30,9 +30,9 @@ ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
         type="text"
         class="form-control"
         id="username"
-        placeholder={{currentUser.name}}
+        placeholder="Please insert changed username"
         name="username"
-        ngModel
+        [(ngModel)]="userInformation"
       />
     </div>
     <p>Insert new information into corresponding fields</p>
@@ -42,7 +42,7 @@ ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
   </fieldset>
 </form>
 
-<form #ChangePW="ngForm" (ngSubmit)="onClickSubmitPW(ChangePW.value)">
+<form #ChangePW="ngForm" >//(ngSubmit)="onClickSubmitPW(ChangePW.value)"
   <fieldset>
     <legend>Password Change</legend>
     <div class="form-group">

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Globals } from './globals';
 
 @Injectable({
 	providedIn: 'root'
 })
+
 export class HttpService {
-	constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient, public globals: Globals) {}
 
 	addProfile(data) {
 		console.log(data);
@@ -18,7 +20,7 @@ export class HttpService {
   }
 
   showUser() {
-    return this.http.get('http://localhost:5000/user/:username',{ responseType: 'json' });
+    return this.http.get('http://localhost:5000/user/' + this.globals.username, { responseType: 'json' });
   }
 
   passportAuthenticate(data) {
@@ -31,12 +33,12 @@ export class HttpService {
   }
 
   deleteUser() {
-    return this.http.delete('http://localhost:5000/user/:username',{ responseType: 'json' });
+    return this.http.delete('http://localhost:5000/user/' + this.globals.username, { responseType: 'json' });
   }
 
   updateUser(data) {
     console.log(data);
-    return this.http.put('http://localhost:5000/user/:username', data, { responseType: 'json' });
+    return this.http.put('http://localhost:5000/user/' + this.globals.username, data, { responseType: 'json' });
   }
 
 }

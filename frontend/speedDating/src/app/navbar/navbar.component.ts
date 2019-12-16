@@ -15,13 +15,13 @@ export class NavbarComponent implements OnInit {
 		this.navbarOpen = !this.navbarOpen;
 	}
 
-  constructor(public _globals: Globals, private http: HttpService) { }
+  constructor(public globals: Globals, private http: HttpService) { }
 	ngOnInit() {}
 
   logoutUser() {
-    this._globals.username = null;
-    this._globals.isLoggedIn = false;
-    console.log(this._globals.isLoggedIn + " " + this._globals.username);
+    this.globals.username = null;
+    this.globals.isLoggedIn = false;
+    console.log(this.globals.isLoggedIn + " " + this.globals.username);
     this.http.logoutUser().subscribe(res => console.log(res));
   }
 }

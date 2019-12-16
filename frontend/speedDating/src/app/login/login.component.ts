@@ -9,16 +9,16 @@ import {HttpService} from "../http.service";
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public _globals: Globals, private http: HttpService) { }
+  constructor(public globals: Globals, private http: HttpService) { }
 
   ngOnInit() {
   }
 
   onClickSubmit(data) {
-    this._globals.username = data.email;
-    this._globals.isLoggedIn = true;
+    this.globals.username = data.email;
+    this.globals.isLoggedIn = true;
     this.http.passportAuthenticate(data).subscribe(res => console.log(res));
-    //console.log(this._globals.isLoggedIn + " " + this._globals.username);
+    // console.log(this.globals.isLoggedIn + " " + this.globals.username);
   }
 
 }
