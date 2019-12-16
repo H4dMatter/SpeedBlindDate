@@ -7,25 +7,29 @@ const User = require('./dbConfigUser');
 
 //PassportAuthentification Functions
 module.exports = function (passport) {
-    passport.use(new LocalStrategy( {usernameField: 'email'}, (username, password, done) => {
+    passport.use(new LocalStrategy((username, password, done) => {
             console.log(username + ' ' + password);
-            User.findOne({email: username})
+            User.findOne({username: username})
                 .then( async (user) => {
-                    console.log('Beim User ' + user); //Problem - user wird nicht gefunden
+                    console.log('Beim User ' + user);
                     if (!user) {
                         console.log('Im If');
                         return done(null, false, { message: 'Incorrect username.' });
                     }
                     bcrypt.compare(password, user.password, (err, isMatch) => {
                         if(err) {throw err}
-                        if(isMatch){return done(null, user);}
+                        if(isMatch){
+                            return done(null, user);
+                        } else {
+                            return done(null, false, { message: 'Incorrect password.' });
+                        }
                     });
                 })
         }
     ));
 
-    passport.serializeUser((username, done) => { done (null, {email: username})});
-    passport.deserializeUser((username, done) => { done (null, {email: username})});
+    passport.serializeUser((username, done) => { done (null, {username: username})});
+    passport.deserializeUser((username, done) => { done (null, {username: username})});
 };
 
 

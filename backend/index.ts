@@ -94,7 +94,7 @@ app.get('/profile/:username', (req, res) => getProfile(req, res));
 
 //User login
 router.post('/user/login', passport.authenticate('local'), (req, res) => {
-	res.send('logged in');
+	res.json({msg: 'Successfully logged in'});
 });
 
 //User logout --> dashboard
@@ -130,7 +130,7 @@ async function updateUser(req, res) {
 	});
 
 	if (errors.length > 0) {
-		res.send(errors);
+		res.json(errors);
 	} else {
 		if (!req.body.email) {
 			await User.findOne({ username: req.params.username }, (err, user) => {
@@ -161,7 +161,7 @@ async function updateUser(req, res) {
 			if (user) {
 				res.json(userToBeUpdated);
 			} else {
-				res.send('No user found');
+				res.json({msg: 'No user found'});
 			}
 		});
 	}
@@ -219,7 +219,7 @@ async function registrationUser(req, res) {
 
 			//console.log(hashedPW + " " + user);
 			user.save();
-			res.send('well done');
+			res.json({msg: 'You are successfully registered'});
 
 			//Redirect
 		}
@@ -280,7 +280,7 @@ function deleteUser(req, res) {
 		if (user) {
 			res.json(user);
 		} else {
-			res.send('No user found');
+			res.json({msg: 'No user found'});
 		}
 	});
 	//res.send('delete');

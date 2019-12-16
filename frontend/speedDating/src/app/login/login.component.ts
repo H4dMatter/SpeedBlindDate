@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Globals } from '../globals';
+import {HttpService} from "../http.service";
 
 @Component({
   selector: 'app-login',
@@ -7,13 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(public _globals: Globals, private http: HttpService) { }
 
   ngOnInit() {
   }
 
   onClickSubmit(data) {
-    console.log(data);
+    this._globals.username = data.email;
+    this._globals.isLoggedIn = true;
+    this.http.passportAuthenticate(data).subscribe(res => console.log(res));
+    console.log(this._globals.isLoggedIn + " " + this._globals.username);
   }
 
 }

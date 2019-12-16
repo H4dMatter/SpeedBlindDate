@@ -10,7 +10,7 @@
 (ngSubmit)="onClickSubmit(ChangeLoginForm.value)" *ngIf=""
 ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
 
-<form #ChangeLoginForm="ngForm" (ngSubmit)="onClickSubmit(ChangeLoginForm.value)">
+<form #ChangeLoginForm="ngForm" (ngSubmit)="onClickSubmitInfo(ChangeLoginForm.value)">
   <fieldset *ngFor="let currentUser of userInformation; let i = index">
     <legend>Login Information</legend>
     <div class="form-group" >
@@ -35,6 +35,16 @@ ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
         ngModel
       />
     </div>
+    <p>Insert new information into corresponding fields</p>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">
+      Change LoginInformation
+    </button>
+  </fieldset>
+</form>
+
+<form #ChangePW="ngForm" (ngSubmit)="onClickSubmitPW(ChangePW.value)">
+  <fieldset>
+    <legend>Password Change</legend>
     <div class="form-group">
       <label for="passwordOne">Password 1</label>
       <input
@@ -59,8 +69,7 @@ ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
     </div>
     <p>Insert new information into corresponding fields</p>
     <button type="submit" class="btn btn-primary btn-lg btn-block">
-      Change
+      Change password
     </button>
   </fieldset>
 </form>
-<br/>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {HttpService} from '../http.service';
 
 @Component({
   selector: 'app-register',
@@ -7,13 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private http: HttpService) {}
 
   ngOnInit() {
   }
 
   onClickSubmit(data) {
-    console.log(data);
+    this.http.registrationUser(data).subscribe(res => console.log(res));
   }
-
 }
+

@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="382befdd-b733-4a5e-b6d8-059b024bb237" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/passport-config.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/passport-config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/speedDating/src/app/globals.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/speedDating/src/app/globals.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/speedDating/src/app/http.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/speedDating/src/app/http.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/speedDating/src/app/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/speedDating/src/app/login/login.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/speedDating/src/app/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/speedDating/src/app/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/speedDating/src/app/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/speedDating/src/app/register/register.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/speedDating/src/app/show-user/show-user.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/speedDating/src/app/show-user/show-user.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/speedDating/src/app/show-user/show-user.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/speedDating/src/app/show-user/show-user.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +42,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="C:\Users\anneh\OneDrive\Dokumente\DHBW\WebEngineeringGit\webeng-2.0\frontend\node_modules\typescript\lib" />
   </component>
@@ -76,6 +81,7 @@
       <workItem from="1576423011525" duration="202000" />
       <workItem from="1576423261416" duration="2533000" />
       <workItem from="1576425840421" duration="45000" />
+      <workItem from="1576511325621" duration="1186000" />
     </task>
     <servers />
   </component>

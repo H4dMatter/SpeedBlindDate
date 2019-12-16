@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpService} from "../http.service";
+import {HttpService} from '../http.service';
 
 @Component({
   selector: 'app-show-user',
@@ -13,13 +13,13 @@ export class ShowUserComponent implements OnInit {
   constructor(private _http: HttpService) { }
 
   ngOnInit() {
-    this._http.getBeer().subscribe(data => {
-      this.userInformation = data;
-      console.log(this.userInformation);
-    });
+    }
+
+  onClickSubmitInfo(data) {
+    console.log(data);
   }
 
-  onClickSubmit(data) {
+  onClickSubmitPW(data) {
     console.log(data);
   }
 
