@@ -331,7 +331,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-	margin-bottom: 0.5rem;
+	margin-bottom: 1rem;
 	font-family: 'Montserrat', -apple-system, system-ui, BlinkMacSystemFont,
 		'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	font-weight: 500;
@@ -6680,7 +6680,7 @@ button.bg-danger:focus {
 	background-color: #ff501e !important;
 }
 .bg-light {
-	background-color: #f8f9fa !important;
+	background-color: #f8f9fa !important; //TODO: maybe little darker? #f0f2f4
 }
 a.bg-light:hover,
 a.bg-light:focus,
@@ -10260,4 +10260,17 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
+}
+
+//Make a little space for single line inputs
+.form-inline label {
+	margin-right: 1em;
+}
+
+.form-inline input {
+	margin-right: 1em;
+}
+
+.form-inline select {
+	margin-right: 1em;
 }
