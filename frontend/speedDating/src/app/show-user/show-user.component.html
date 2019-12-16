@@ -1,1 +1,66 @@
-<p>show-user works!</p>
+
+<!--<div class="card border-success mb-3" style="max-width: 20rem;" *ngFor="let currentUser of userInformation; let i = index">
+  <div class="card-header">{{currentUser.website_url}}</div>
+  <div class="card-body">
+    <h4 class="card-title">{{currentUser.name}}</h4>
+    <p class="card-text">{{currentUser.country}}</p>
+</div>
+
+
+(ngSubmit)="onClickSubmit(ChangeLoginForm.value)" *ngIf=""
+ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
+
+<form #ChangeLoginForm="ngForm" (ngSubmit)="onClickSubmit(ChangeLoginForm.value)">
+  <fieldset *ngFor="let currentUser of userInformation; let i = index">
+    <legend>Login Information</legend>
+    <div class="form-group" >
+      <label for="email">Email address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder= {{currentUser.website_url}}
+        ngModel
+      />
+    </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        placeholder={{currentUser.name}}
+        name="username"
+        ngModel
+      />
+    </div>
+    <div class="form-group">
+      <label for="passwordOne">Password 1</label>
+      <input
+        type="password"
+        class="form-control"
+        id="passwordOne"
+        placeholder="Either authentificate or choose new password"
+        name="passwordOne"
+        ngModel
+      />
+    </div>
+    <div class="form-group">
+      <label for="passwordTwo">Password 2</label>
+      <input
+        type="password"
+        class="form-control"
+        id="passwordTwo"
+        placeholder="Validate password, please"
+        name="passwordTwo"
+        ngModel
+      />
+    </div>
+    <p>Insert new information into corresponding fields</p>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">
+      Change
+    </button>
+  </fieldset>
+</form>
+<br/>

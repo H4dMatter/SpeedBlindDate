@@ -1,1 +1,56 @@
-<p>register works!</p>
+<form #registerForm="ngForm" (ngSubmit)="onClickSubmit(registerForm.value)">
+  <fieldset>
+    <legend>Register</legend>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        placeholder="Enter your email address, please"
+        name="email"
+        ngModel
+      />
+    </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        placeholder="Enter your username, please"
+        name="username"
+        ngModel
+      />
+    </div>
+    <div class="form-group">
+      <label for="passwordOne">Password 1</label>
+      <input
+        type="password"
+        class="form-control"
+        id="passwordOne"
+        placeholder="Select a password, please"
+        name="passwordOne"
+        ngModel
+      />
+    </div>
+    <div class="form-group">
+      <label for="passwordTwo">Password 2</label>
+      <input
+        type="password"
+        class="form-control"
+        id="passwordTwo"
+        placeholder="Validate password, please"
+        name="passwordTwo"
+        ngModel
+      />
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">
+      Submit
+    </button>
+  </fieldset>
+</form>
+<br>
+<button type="button" class="btn btn-primary btn-lg btn-block" href="#" routerLink="/">
+  Login
+</button>

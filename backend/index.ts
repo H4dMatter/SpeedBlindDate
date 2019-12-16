@@ -1,10 +1,3 @@
-
-var app = express();
-var http = require('http');
-
-var cors = require('cors');
-
-app.use(cors());
 //Packages
 const express = require('express');
 const router = express.Router();
@@ -13,6 +6,13 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const passport = require('passport');
 const User = require('./dbConfigUser');
+
+var app = express();
+var http = require('http');
+
+var cors = require('cors');
+
+app.use(cors());
 
 //Brings in local strategy from passport-config file
 require('./passport-config')(passport);
@@ -59,21 +59,57 @@ router.get('/user/:username', (req, res) => showUser(req, res));
 router.delete('/user/:username', (req,res) => deleteUser(req, res));
 
 //Update user
-router.put('/user/:username', async (req,res) => {
+router.put('/user/:username', (req,res) => updateUser(req, res));
 
-        if(req.body.passwordOne != req.body.passwordTwo) {
-            res.send("Password mismatch");
+//Functions
+
+async function updateUser(req, res){
+
+    const errors = [];
+    let userToBeUpdated;
+
+    await User.findOne({username: req.body.username}, (err, user) => {
+        if (err) console.log('error'); //redirect
+        if (user) {
+            errors.push({msg: "User with this username already exists"});
+        }
+    });
+
+    await User.findOne({email: req.body.email}, async (err, user) => {
+        if (err) console.log('error'); //redirect
+        if (user) {
+            errors.push({msg: "User with this email already exists"});
+        }
+    });
+
+    if (errors.length > 0){
+        res.send(errors);
+    } else {
+        if(!req.body.email){
+            await User.findOne({username: req.params.username}, (err, user) => {
+                if (err) console.log('error'); //redirect
+                if (user) {
+                    userToBeUpdated = {
+                        email: user.email,
+                        username: req.body.username
+                    };
+                }
+            });
+        } else {
+            if(!req.body.username){
+                userToBeUpdated = {
+                    email: req.body.email,
+                    username: req.params.username
+                };
+            } else {
+                userToBeUpdated = {
+                    email: req.body.email,
+                    username: req.body.username
+                };
+            }
         }
 
-        const hashedPW = await bcrypt.hash(req.body.passwordOne, 10);
-
-        const userToBeUpdated = {
-            email: req.body.email,
-            username: req.body.username,
-            password: hashedPW
-        };
-
-        User.findOneAndUpdate({ username: req.params.username }, userToBeUpdated, (err, user) => {
+        User.findOneAndUpdate({username: req.params.username}, userToBeUpdated, (err, user) => {
             if (err) console.log('error'); //redirect
             if (user) {
                 res.json(userToBeUpdated);
@@ -81,19 +117,10 @@ router.put('/user/:username', async (req,res) => {
                 res.send('No user found');
             }
         });
-        //res.send('update');
     }
-);
+}
 
 
-
-
-
-
-
-
-
-//Functions
 /**
  * Registrates new user - but checks before if user already exists
  * @param {object} req - Represents the request object

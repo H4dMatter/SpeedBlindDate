@@ -1,7 +1,7 @@
 //Packages
 const express = require('express');
 const app = express ();
-const indexRouter = require('./index');
+const indexRouter = require('./index.ts');
 const mongoose = require('mongoose');
 const url = "mongodb://localhost:27017/speeddating";
 const PORT = process.env.PORT || 5000; //looks at environment variable named PORT (on system) and checks on which port process is running
