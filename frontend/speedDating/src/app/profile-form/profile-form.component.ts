@@ -14,7 +14,7 @@ export class ProfileFormComponent implements OnInit {
 	firstName: string = 'anne';
 	lastName: string = null;
 	age: number = null;
-	hobbies: [string] = ['null', 'nichts'];
+	hobbies: [string] = null;
 	gender: string = null;
 	preferences: {
 		genderPref: string;
