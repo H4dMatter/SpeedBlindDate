@@ -127,14 +127,7 @@ router.get('/profile/:username', (req, res) => getProfile(req, res));
 //changes a profile
 router.put('/profile/:username', (req, res) => changeProfile(req, res));
 //User login
-<<<<<<< HEAD
-router.post('/user/login', passport.authenticate('local'), (req, res) => {
-	res.send({ msg: 'Successfully logged in' });
-});
-=======
 router.post('/user/login', (req, res) => loginUser(req, res));
-
->>>>>>> loginusername
 
 //User logout --> dashboard
 router.get('/user/logout', (req, res) => logoutUser(req, res));
@@ -150,22 +143,22 @@ router.put('/user/:username', (req, res) => updateUser(req, res));
 
 //Functions
 
-async function loginUser (req, res){
+async function loginUser(req, res) {
 	let userData = req.body;
-	User.findOne({username: userData.username}, (err, user) => {
+	User.findOne({ username: userData.username }, (err, user) => {
 		if (err) {
 			console.log(err);
 		} else {
-			if(!user){
+			if (!user) {
 				res.send('Invalid email');
 			} else {
 				bcrypt.compare(userData.password, user.password, (err, isMatch) => {
 					if (!isMatch) {
 						res.send('Invalid password');
 					} else {
-						let payload = { subject: user.username};
+						let payload = { subject: user.username };
 						let token = jwt.sign(payload, 'secretKey');
-						res.send({token});
+						res.send({ token });
 					}
 				});
 			}
@@ -200,7 +193,7 @@ async function updateUser(req, res) {
 			username: req.body.username
 		};
 
-		User.findOneAndUpdate({username: req.params.username}, userToBeUpdated, (err, user) => {
+		User.findOneAndUpdate({ username: req.params.username }, userToBeUpdated, (err, user) => {
 			if (err) console.log('error'); //redirect
 			if (user) {
 				res.json(userToBeUpdated);

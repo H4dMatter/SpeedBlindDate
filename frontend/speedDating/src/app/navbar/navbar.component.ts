@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { Globals } from '../globals';
 import { HttpService } from '../http.service';
+import { importType } from '@angular/compiler/src/output/output_ast';
+import { fromEventPattern } from 'rxjs';
 
 @Component({
 	selector: 'app-navbar',

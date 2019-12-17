@@ -4,11 +4,7 @@ import { Injectable } from '@angular/core';
 	providedIn: 'root'
 })
 export class Globals {
-<<<<<<< HEAD
 	username: string = null;
-=======
-	username: string = 'MaxF';
->>>>>>> loginusername
 	isLoggedIn: boolean = false;
 	isNewUser: boolean = false;
 }

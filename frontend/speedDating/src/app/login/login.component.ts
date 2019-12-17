@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Globals } from '../globals';
 import { HttpService } from '../http.service';
-<<<<<<< HEAD
-=======
 import { AuthService } from '../auth.service';
-import {Router} from '@angular/router';
->>>>>>> loginusername
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-login',
@@ -13,41 +10,22 @@ import {Router} from '@angular/router';
 	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-<<<<<<< HEAD
-	constructor(public globals: Globals, private http: HttpService) {}
+	token;
+	constructor(private auth: AuthService, private router: Router, public globals: Globals) {}
 
 	ngOnInit() {}
 
 	onClickSubmit(data) {
-		this.globals.username = data.username;
-		this.http.passportAuthenticate(data).subscribe(
-			res => console.log(res),
-			err => {
-				console.log(err.statusText);
-			},
-			() => {
-				this.globals.username = data.username;
+		this.auth.userLogin(data).subscribe(
+			(res: any) => {
+				this.token = res.token;
+				//TODO delete if token works
 				this.globals.isLoggedIn = true;
-			}
+				this.globals.username = data.username;
+				///
+				localStorage.setItem('token', this.token);
+			},
+			err => console.log(err)
 		);
 	}
 }
-=======
-  token;
-  constructor(private auth: AuthService, private router: Router) { }
-
-  ngOnInit() {
-  }
-
-  onClickSubmit(data) {
-    this.auth.userLogin(data).subscribe(
-      (res:any) => {
-        this.token = res.token;
-        localStorage.setItem('token', this.token);
-        this.router.navigate(['/profile']);
-      },
-      err => console.log(err)
-    );
-   }
-  }
->>>>>>> loginusername
