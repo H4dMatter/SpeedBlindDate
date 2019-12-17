@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpService} from '../http.service';
-import { Globals } from '../globals';
+import {Globals} from '../globals';
 
 @Component({
   selector: 'app-show-user',
@@ -9,28 +9,24 @@ import { Globals } from '../globals';
 })
 export class ShowUserComponent implements OnInit {
 
-  userInformation: Object;
+  email: string = null;
+  username: string = this.globals.username;
 
   constructor(private http: HttpService, public globals: Globals) {
   }
 
   ngOnInit() {
+   /* this.http.showUser().subscribe(res => {
+      this.email = res.email;
+      this.username = res.username;
+      console.log(this.email + " " + this.username);
+    });*/
   }
 
-  onClickSubmitInfo() {
-    this.http.showUser().subscribe(res => {
-      /*this.userInformation = {
-          email: res.email;
-
-        };*/
-        console.log(this.globals.username + " " + res);
-      }
-    );
+  onClickSubmitInfo(data) {
+    this.globals.username = data.username;
+    this.globals.isLoggedIn = true;
+    this.http.updateUser(data).subscribe(res => console.log(res));
   }
 }
-
-/*onClickSubmitPW(data); {
-    console.log(data);
-  }
-}*/
 

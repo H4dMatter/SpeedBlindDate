@@ -1,8 +1,9 @@
 //Packages
-const mongoose = require('mongoose');
+/*const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./dbConfigUser').User;
+cont jwt = require('jsonwebtoken');
 
 
 //PassportAuthentification Functions
@@ -30,7 +31,7 @@ module.exports = function (passport) {
 
     passport.serializeUser((username, done) => { done (null, {username: username})});
     passport.deserializeUser((username, done) => { done (null, {username: username})});
-};
+};*/
 
 
 

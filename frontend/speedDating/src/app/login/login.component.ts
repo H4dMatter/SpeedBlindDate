@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Globals } from '../globals';
 import { HttpService } from '../http.service';
+<<<<<<< HEAD
+=======
+import { AuthService } from '../auth.service';
+import {Router} from '@angular/router';
+>>>>>>> loginusername
 
 @Component({
 	selector: 'app-login',
@@ -8,6 +13,7 @@ import { HttpService } from '../http.service';
 	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+<<<<<<< HEAD
 	constructor(public globals: Globals, private http: HttpService) {}
 
 	ngOnInit() {}
@@ -26,3 +32,22 @@ export class LoginComponent implements OnInit {
 		);
 	}
 }
+=======
+  token;
+  constructor(private auth: AuthService, private router: Router) { }
+
+  ngOnInit() {
+  }
+
+  onClickSubmit(data) {
+    this.auth.userLogin(data).subscribe(
+      (res:any) => {
+        this.token = res.token;
+        localStorage.setItem('token', this.token);
+        this.router.navigate(['/profile']);
+      },
+      err => console.log(err)
+    );
+   }
+  }
+>>>>>>> loginusername

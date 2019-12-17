@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const User = require('./dbConfigUser').User;
 const Profile = require('./dbConfigUser').Profile;
+const jwt = require('jsonwebtoken');
 
 var app = express();
 var http = require('http');
@@ -14,7 +15,7 @@ var http = require('http');
 var cors = require('cors');
 
 //Brings in local strategy from passport-config file
-require('./passport-config')(passport);
+//require('./passport-config')(passport);
 
 //Uses
 router.use(cors());
@@ -126,9 +127,14 @@ router.get('/profile/:username', (req, res) => getProfile(req, res));
 //changes a profile
 router.put('/profile/:username', (req, res) => changeProfile(req, res));
 //User login
+<<<<<<< HEAD
 router.post('/user/login', passport.authenticate('local'), (req, res) => {
 	res.send({ msg: 'Successfully logged in' });
 });
+=======
+router.post('/user/login', (req, res) => loginUser(req, res));
+
+>>>>>>> loginusername
 
 //User logout --> dashboard
 router.get('/user/logout', (req, res) => logoutUser(req, res));
@@ -144,20 +150,44 @@ router.put('/user/:username', (req, res) => updateUser(req, res));
 
 //Functions
 
+async function loginUser (req, res){
+	let userData = req.body;
+	User.findOne({username: userData.username}, (err, user) => {
+		if (err) {
+			console.log(err);
+		} else {
+			if(!user){
+				res.send('Invalid email');
+			} else {
+				bcrypt.compare(userData.password, user.password, (err, isMatch) => {
+					if (!isMatch) {
+						res.send('Invalid password');
+					} else {
+						let payload = { subject: user.username};
+						let token = jwt.sign(payload, 'secretKey');
+						res.send({token});
+					}
+				});
+			}
+		}
+	});
+}
+
 async function updateUser(req, res) {
 	const errors = [];
 	let userToBeUpdated;
 
-	await User.findOne({ username: req.body.username }, (err, user) => {
+	await User.find({ username: req.body.username }, (err, users) => {
 		if (err) console.log('error'); //redirect
-		if (user) {
+		if (users.length > 1) {
+			console.log(users);
 			errors.push({ msg: 'User with this username already exists' });
 		}
 	});
 
-	await User.findOne({ email: req.body.email }, async (err, user) => {
+	await User.find({ email: req.body.email }, async (err, users) => {
 		if (err) console.log('error'); //redirect
-		if (user) {
+		if (users.length > 1) {
 			errors.push({ msg: 'User with this email already exists' });
 		}
 	});
@@ -165,31 +195,12 @@ async function updateUser(req, res) {
 	if (errors.length > 0) {
 		res.send(errors);
 	} else {
-		if (!req.body.email) {
-			await User.findOne({ username: req.params.username }, (err, user) => {
-				if (err) console.log('error'); //redirect
-				if (user) {
-					userToBeUpdated = {
-						email: user.email,
-						username: req.body.username
-					};
-				}
-			});
-		} else {
-			if (!req.body.username) {
-				userToBeUpdated = {
-					email: req.body.email,
-					username: req.params.username
-				};
-			} else {
-				userToBeUpdated = {
-					email: req.body.email,
-					username: req.body.username
-				};
-			}
-		}
+		userToBeUpdated = {
+			email: req.body.email,
+			username: req.body.username
+		};
 
-		User.findOneAndUpdate({ username: req.params.username }, userToBeUpdated, (err, user) => {
+		User.findOneAndUpdate({username: req.params.username}, userToBeUpdated, (err, user) => {
 			if (err) console.log('error'); //redirect
 			if (user) {
 				res.json(userToBeUpdated);

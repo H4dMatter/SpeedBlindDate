@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Globals } from '../globals';
 import { HttpService } from '../http.service';
-import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-navbar',
@@ -34,5 +33,9 @@ export class NavbarComponent implements OnInit {
 				this.router.navigateByUrl('/');
 			}
 		);
+	}
+
+	deleteUser() {
+		this.http.deleteUser().subscribe(res => console.log(res));
 	}
 }

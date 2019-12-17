@@ -20,8 +20,11 @@
 				<a class="nav-link" href="#">Chat Room</a>
 			</li>
 		</ul>
-    <button type="button" class="btn btn-secondary" (click)="logoutUser()">
-      Logout
+    <button type="button" class="btn btn-secondary" (click)="logoutUser()" routerLink="/">
+    Logout
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="deleteUser()" routerLink="/">
+      Refuse account
     </button>
 	</div>
 </nav>
