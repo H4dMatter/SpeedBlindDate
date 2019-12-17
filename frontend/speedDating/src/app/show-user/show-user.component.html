@@ -1,15 +1,3 @@
-
-<!--<div class="card border-success mb-3" style="max-width: 20rem;" *ngFor="let currentUser of userInformation; let i = index">
-  <div class="card-header">{{currentUser.website_url}}</div>
-  <div class="card-body">
-    <h4 class="card-title">{{currentUser.name}}</h4>
-    <p class="card-text">{{currentUser.country}}</p>
-</div>
-
-
-(ngSubmit)="onClickSubmit(ChangeLoginForm.value)" *ngIf=""
-ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
-
 <form #ChangeLoginForm="ngForm" (ngSubmit)="onClickSubmitInfo(ChangeLoginForm.value)">
   <fieldset>
     <legend>Login Information</legend>
@@ -21,7 +9,7 @@ ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
         id="email"
         name="email"
         placeholder="Please insert changed email address"
-        [(ngModel)]="userInformation"
+        [(ngModel)]="this.email"
       />
     </div>
     <div class="form-group">
@@ -32,7 +20,7 @@ ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
         id="username"
         placeholder="Please insert changed username"
         name="username"
-        [(ngModel)]="userInformation"
+        [(ngModel)]="this.username"
       />
     </div>
     <p>Insert new information into corresponding fields</p>
@@ -42,34 +30,3 @@ ich muss nicht durchloopen, da nur ein user zurück gegeben wird-->
   </fieldset>
 </form>
 
-<form #ChangePW="ngForm" >//(ngSubmit)="onClickSubmitPW(ChangePW.value)"
-  <fieldset>
-    <legend>Password Change</legend>
-    <div class="form-group">
-      <label for="passwordOne">Password 1</label>
-      <input
-        type="password"
-        class="form-control"
-        id="passwordOne"
-        placeholder="Either authentificate or choose new password"
-        name="passwordOne"
-        ngModel
-      />
-    </div>
-    <div class="form-group">
-      <label for="passwordTwo">Password 2</label>
-      <input
-        type="password"
-        class="form-control"
-        id="passwordTwo"
-        placeholder="Validate password, please"
-        name="passwordTwo"
-        ngModel
-      />
-    </div>
-    <p>Insert new information into corresponding fields</p>
-    <button type="submit" class="btn btn-primary btn-lg btn-block">
-      Change password
-    </button>
-  </fieldset>
-</form>

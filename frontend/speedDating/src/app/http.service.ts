@@ -22,6 +22,7 @@ export class HttpService {
 
 
   showUser() {
+    console.log(this.globals.username);
     return this.http.get('http://localhost:5000/user/' + this.globals.username, {responseType: 'json'});
   }
 
@@ -29,14 +30,6 @@ export class HttpService {
     console.log(data);
     return this.http.post('http://localhost:5000/user', data, {responseType: 'json'});
   }
-
-
-
-  passportAuthenticate(data) {
-    console.log(data);
-    return this.http.post('http://localhost:5000/user/login', data, {responseType: 'json'});
-  }
-
 
   deleteUser() {
     return this.http.delete('http://localhost:5000/user/' + this.globals.username, {responseType: 'json'});
@@ -50,5 +43,4 @@ export class HttpService {
   logoutUser() {
     return this.http.get('http://localhost:5000/user/logout', {responseType: 'text'});
   }
-
 }

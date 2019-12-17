@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Globals} from "../globals";
-import {HttpService} from "../http.service";
+import {Globals} from '../globals';
+import {HttpService} from '../http.service';
 
 @Component({
 	selector: 'app-navbar',
@@ -21,7 +21,11 @@ export class NavbarComponent implements OnInit {
   logoutUser() {
     this.globals.username = null;
     this.globals.isLoggedIn = false;
-    console.log(this.globals.isLoggedIn + " " + this.globals.username);
+    console.log(this.globals.isLoggedIn + ' ' + this.globals.username);
     this.http.logoutUser().subscribe(res => console.log(res));
+  }
+
+  deleteUser() {
+    this.http.deleteUser().subscribe(res => console.log(res));
   }
 }

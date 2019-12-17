@@ -6,6 +6,6 @@ import { Injectable } from '@angular/core';
 })
 
 export class Globals {
-	username: string = 'test';
+	username: string = 'MaxF';
 	isLoggedIn: boolean = false;
 }

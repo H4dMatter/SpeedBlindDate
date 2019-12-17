@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Globals } from '../globals';
-import {HttpService} from "../http.service";
+import { HttpService } from '../http.service';
+import { AuthService } from '../auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,17 +10,20 @@ import {HttpService} from "../http.service";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  constructor(public globals: Globals, private http: HttpService) { }
+  token;
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
   onClickSubmit(data) {
-    this.globals.username = data.email;
-    this.globals.isLoggedIn = true;
-    this.http.passportAuthenticate(data).subscribe(res => console.log(res));
-    // console.log(this.globals.isLoggedIn + " " + this.globals.username);
+    this.auth.userLogin(data).subscribe(
+      (res:any) => {
+        this.token = res.token;
+        localStorage.setItem('token', this.token);
+        this.router.navigate(['/profile']);
+      },
+      err => console.log(err)
+    );
+   }
   }
-
-}
