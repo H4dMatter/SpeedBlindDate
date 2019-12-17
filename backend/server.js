@@ -1,6 +1,6 @@
 //Packages
 const express = require('express');
-const app = express ();
+const app = express();
 const indexRouter = require('./index.ts');
 const mongoose = require('mongoose');
 const url = 'mongodb://localhost:27017/speeddating';
@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000; //looks at environment variable named POR
 const db = mongoose.connection;
 
 //Database connection
-mongoose.connect(url, { useNewUrlParser: true });
+mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false });
 db.once('open', () => console.log('Connected to mongoose'));
 db.on('error', () => console.log('db.connection error'));
 

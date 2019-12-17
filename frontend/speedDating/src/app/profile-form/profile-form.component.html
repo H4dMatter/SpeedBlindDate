@@ -1,6 +1,6 @@
-<form #profileForm="ngForm" (ngSubmit)="onClickSubmit(profileForm.value)">
+<form #profileForm="ngForm" (ngSubmit)="submit(profileForm.value)">
 	<fieldset>
-		<h1>Profile</h1>
+		<h1>{{ this.globals.isNewUser == true ? 'Create a profile' : 'Your Profile' }}</h1>
 		<div class="form-group">
 			<label for="firstName">First Name</label>
 			<input
@@ -49,7 +49,7 @@
 		</div>
 		<div class="form-group form-inline">
 			<label for="gender">Gender</label>
-			<select id="gender" class="custom-select" name="gender" ngModel>
+			<select id="gender" class="custom-select" name="gender" [(ngModel)]="gender">
 				<option value="male">male</option>
 				<option value="female">female</option>
 				<option value="other" selected="">other</option>
@@ -60,7 +60,7 @@
 			<div class="form-group form-inline" id="preferences">
 				<div class="form-group ">
 					<label for="genderPref">Gender</label>
-					<select class="custom-select" id="genderPref" name="genderPref" ngModel>
+					<select class="custom-select" id="genderPref" name="genderPref" [(ngModel)]="genderPref">
 						<option value="male">male</option>
 						<option value="female">female</option>
 						<option value="both" selected>both</option>
@@ -74,7 +74,7 @@
 						id="minAge"
 						placeholder="Prefered minimum age"
 						name="minAge"
-						ngModel
+						[(ngModel)]="minAge"
 					/>
 				</div>
 				<div class="form-group">
@@ -85,13 +85,19 @@
 						id="maxAge"
 						placeholder="Prefered maximum age"
 						name="maxAge"
-						ngModel
+						[(ngModel)]="maxAge"
 					/>
 				</div>
 			</div>
 		</div>
 		<button type="submit" class="btn btn-primary">
-			Submit
+			{{ this.globals.isNewUser == true ? 'Submit' : 'Change profile info' }}
 		</button>
+		<ng-template [ngIf]="!this.globals.isNewUser">
+			<small id="fileHelp" class="form-text text-muted"
+				>To edit any of your infotmation, just change them here and click on the button "Change
+				profile info" above
+			</small>
+		</ng-template>
 	</fieldset>
 </form>

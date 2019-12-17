@@ -60,10 +60,13 @@ router.post('/profile', function(req, res) {
 	console.log('Profile created, Body:');
 	console.log(req.body);
 
-	let hobbies = req.body.hobbies.split(',');
-	hobbies.forEach((element, index, hobbies) => {
-		hobbies[index] = element.trim();
-	});
+	let hobbies = null;
+	if (req.body.hobbies != null) {
+		hobbies = req.body.hobbies.split(',');
+		hobbies.forEach((element, index, hobbies) => {
+			hobbies[index] = element.trim();
+		});
+	}
 
 	var profile = new Profile({
 		username: req.body.username,
@@ -84,13 +87,47 @@ router.post('/profile', function(req, res) {
 
 	profile.save().then(() => res.send('Profile created successfully'));
 });
+function changeProfile(req, res) {
+	console.log('Profile of ' + req.body.username + ' will be updated with: ');
+	console.log(req.body);
 
+	let hobbies = null;
+	if (req.body.hobbies != null) {
+		hobbies = req.body.hobbies.split(',');
+		hobbies.forEach((element, index, hobbies) => {
+			hobbies[index] = element.trim();
+		});
+	}
+
+	var update = {
+		username: req.body.username,
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		age: req.body.age,
+		hobbies: hobbies,
+		gender: req.body.gender,
+		preferences: {
+			genderPref: req.body.genderPref,
+			ageRange: {
+				minAge: req.body.minAge,
+				maxAge: req.body.maxAge
+			}
+		}
+	};
+	console.log(update);
+
+	Profile.findOneAndUpdate({ username: req.body.username }, update).then(() =>
+		res.send('Profile updated successfully')
+	);
+}
 //gets specific profile by username
 router.get('/profile/:username', (req, res) => getProfile(req, res));
 
+//changes a profile
+router.put('/profile/:username', (req, res) => changeProfile(req, res));
 //User login
 router.post('/user/login', passport.authenticate('local'), (req, res) => {
-	res.send({msg: 'Successfully logged in'});
+	res.send({ msg: 'Successfully logged in' });
 });
 
 //User logout --> dashboard
@@ -157,7 +194,7 @@ async function updateUser(req, res) {
 			if (user) {
 				res.json(userToBeUpdated);
 			} else {
-				res.json({msg: 'No user found'});
+				res.json({ msg: 'No user found' });
 			}
 		});
 	}
@@ -215,7 +252,7 @@ async function registrationUser(req, res) {
 
 			//console.log(hashedPW + " " + user);
 			user.save();
-			res.json({msg: 'You are successfully registered'})
+			res.json({ msg: 'You are successfully registered' });
 
 			//Redirect
 		}
