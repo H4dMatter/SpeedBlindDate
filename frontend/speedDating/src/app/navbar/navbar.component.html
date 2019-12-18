@@ -10,21 +10,18 @@
 	<div class="collapse navbar-collapse" [ngClass]="{ show: navbarOpen }" *ngIf="globals.isLoggedIn">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-				<a class="nav-link" href="#" routerLink="/user/{username}">User Info</a>
+				<a class="nav-link" href="#" routerLink="/user/{username}" routerLinkActive="active">User Info</a>
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="#" routerLink="/profile">Profile</a>
+				<a class="nav-link" href="#" routerLink="/profile" routerLinkActive="active">Profile</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Chat Room</a>
+				<a class="nav-link" href="#" routerLinkActive="active">Chat Room</a>
 			</li>
 		</ul>
     <button type="button" class="btn btn-secondary" (click)="logoutUser()" routerLink="/">
     Logout
-    </button>
-    <button type="button" class="btn btn-secondary" (click)="deleteUser()" routerLink="/">
-      Refuse account
     </button>
 	</div>
 </nav>

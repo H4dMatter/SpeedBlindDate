@@ -1,6 +1,8 @@
 //Packages
 const mongoose = require('mongoose');
 
+
+//User Schema
 const userSchema = new mongoose.Schema(
 	{
 		email: {
@@ -21,7 +23,9 @@ const userSchema = new mongoose.Schema(
 
 const User = mongoose.model('User', userSchema);
 
-var profileSchema = new mongoose.Schema(
+
+//Profile Schema
+const profileSchema = new mongoose.Schema(
 	{
 		username: String,
 		firstName: String,
@@ -41,6 +45,6 @@ var profileSchema = new mongoose.Schema(
 	{ collection: 'profiles' }
 );
 
-var Profile = mongoose.model('Profile', profileSchema);
+const Profile = mongoose.model('Profile', profileSchema);
 
 module.exports = { User: User, Profile: Profile };

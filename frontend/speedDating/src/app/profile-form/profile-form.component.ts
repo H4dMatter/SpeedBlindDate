@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { Globals } from '../globals';
 import { ResponseObject } from './response-object';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 import { Router } from '@angular/router';
 
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 	styleUrls: ['./profile-form.component.scss']
 })
 export class ProfileFormComponent implements OnInit {
-	constructor(private http: HttpService, public globals: Globals, public router: Router) {}
+	constructor(private flash: FlashMessagesService, private http: HttpService, public globals: Globals, public router: Router) {}
 
 	username: string = this.globals.username;
 	firstName: string = null;
@@ -23,7 +24,7 @@ export class ProfileFormComponent implements OnInit {
 	minAge: number = null;
 	maxAge: number = null;
 
-	images: [{ data: 'Buffer'; contentType: String }] = null;
+	images: [{ data: 'Buffer'; contentType: string }] = null;
 
 	submit(data) {
 		data.username = this.globals.username;
@@ -33,23 +34,32 @@ export class ProfileFormComponent implements OnInit {
 	addNewProfile(data) {
 		console.log(data);
 		this.http.addProfile(data).subscribe(
-			data => console.log(data),
+			data => {
+			  console.log(data);
+			  this.flash.show('Profile successfully added', {cssClass: 'alert-secondary'});
+      },
 			err => {
 				console.log(err.statusText);
-			},
-			() => {
-				this.globals.isLoggedIn = true;
-				this.globals.isNewUser = false;
-				this.router.navigateByUrl('/');
-			}
-		);
-	}
+    this.flash.show(err.statusText, {cssClass: 'alert-warning'});
+},
+() => {
+  this.globals.isLoggedIn = true;
+  this.globals.isNewUser = false;
+  this.router.navigateByUrl('/profile');
+}
+);
+}
 
 	changeProfile(data) {
 		this.http.changeProfile(data).subscribe(
-			data => console.log(data),
+			data => {
+			  console.log(data);
+       console.log('succesfully updated');
+       this.flash.show('Profile successfully updated', {cssClass: 'alert-secondary'});
+      },
 			err => {
 				console.log(err.statusText);
+        this.flash.show(err.statusText, {cssClass: 'alert-danger'});
 			},
 			() => {
 				console.log('succesfully updated');
@@ -58,7 +68,7 @@ export class ProfileFormComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		if (this.username != null && this.globals.isNewUser == false) {
+		if (this.username != null && this.globals.isNewUser === false) {
 			this.http.getProfile().subscribe((data: ResponseObject) => {
 				console.log(data);
 				this.firstName = data.firstName;
