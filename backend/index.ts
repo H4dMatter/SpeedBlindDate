@@ -10,9 +10,39 @@ const Profile = require('./dbConfigUser').Profile;
 const jwt = require('jsonwebtoken');
 
 var app = express();
-var http = require('http');
 
 var cors = require('cors');
+
+let http = require('http');
+let server = http.Server(app);
+let socketIO = require('socket.io');
+let io = socketIO(server);
+const chatPort = process.env.PORT || 3000;
+
+var users = [];
+
+io.sockets.on('connection', function(client) {
+	client.on('new-user', function(username) {
+		client.username = username;
+		console.log(username + ' connected');
+		users.push(username);
+		io.emit('new-user', 'connected users :' + users);
+	});
+
+	client.on('disconnect', function() {
+		users.splice(users.indexOf(client), 1);
+		console.log('user disconnected');
+		io.emit('new-user', 'connected users :' + users);
+	});
+
+	client.on('new-message', message => {
+		io.emit('new-message', message);
+	});
+});
+
+server.listen(chatPort, () => {
+	console.log(`started on port: ${chatPort}`);
+});
 
 //Brings in local strategy from passport-config file
 //require('./passport-config')(passport);

@@ -14,20 +14,24 @@ import { ShowUserComponent } from './show-user/show-user.component';
 
 import { ProfileFormComponent } from './profile-form/profile-form.component';
 
-import {AuthService} from './auth.service';
+import { AuthService } from './auth.service';
+
+import { ChatComponent } from './chat/chat.component';
+import { ChatService } from './chat.service';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		ProfileComponent,
 		NavbarComponent,
-    ProfileFormComponent,
-    LoginComponent,
-    RegisterComponent,
-    ShowUserComponent
+		ProfileFormComponent,
+		LoginComponent,
+		RegisterComponent,
+		ShowUserComponent,
+		ChatComponent
 	],
 	imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
-	providers: [AuthService],
+	providers: [AuthService, ChatService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -3,7 +3,13 @@
 		Blind Date
 	</a>
 
-	<button class="navbar-toggler" type="button" (click)="toggleNavbar()" id="navbarColor01" *ngIf="globals.isLoggedIn">
+	<button
+		class="navbar-toggler"
+		type="button"
+		(click)="toggleNavbar()"
+		id="navbarColor01"
+		*ngIf="globals.isLoggedIn"
+	>
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
@@ -17,14 +23,14 @@
 				<a class="nav-link" href="#" routerLink="/profile">Profile</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Chat Room</a>
+				<a class="nav-link" href="#" routerLink="/chat">Chat Room</a>
 			</li>
 		</ul>
-    <button type="button" class="btn btn-secondary" (click)="logoutUser()" routerLink="/">
-    Logout
-    </button>
-    <button type="button" class="btn btn-secondary" (click)="deleteUser()" routerLink="/">
-      Refuse account
-    </button>
+		<button type="button" class="btn btn-secondary" (click)="logoutUser()" routerLink="/">
+			Logout
+		</button>
+		<button type="button" class="btn btn-secondary" (click)="deleteUser()" routerLink="/">
+			Refuse account
+		</button>
 	</div>
 </nav>
