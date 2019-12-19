@@ -19,24 +19,38 @@ let socketIO = require('socket.io');
 let io = socketIO(server);
 const chatPort = process.env.PORT || 3000;
 
-var users = [];
+var users = {};
+
+var privateRoomId = 0;
 
 io.sockets.on('connection', function(client) {
 	client.on('new-user', function(username) {
 		client.username = username;
 		console.log(username + ' connected');
-		users.push(username);
-		io.emit('new-user', 'connected users :' + users);
+		users[client.username] = client;
+		io.emit('new-user', Object.keys(users));
 	});
 
 	client.on('disconnect', function() {
-		users.splice(users.indexOf(client), 1);
+		delete users[client.username];
 		console.log('user disconnected');
-		io.emit('new-user', 'connected users :' + users);
+		io.emit('new-user', Object.keys(users));
 	});
 
 	client.on('new-message', message => {
 		io.emit('new-message', message);
+	});
+
+	client.on('private-chat', username => {
+		client.join('room' + privateRoomId);
+		users[username].join('room' + privateRoomId);
+		io.to('room' + privateRoomId).emit('private-room', privateRoomId);
+		privateRoomId++;
+	});
+
+	client.on('private-message', messageObj => {
+		console.log(messageObj.roomNr + ' ' + messageObj.message);
+		io.to('room' + messageObj.roomNr).emit('private-message', messageObj);
 	});
 });
 

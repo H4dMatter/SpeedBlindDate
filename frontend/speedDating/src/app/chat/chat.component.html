@@ -1,6 +1,23 @@
-<div *ngFor="let message of messages">
-	{{ message }}
+<div class="friendslist">
+	<div *ngFor="let user of connectedUsers" (click)="privateChat(user)">
+		{{ user }}
+		<br />
+	</div>
+	<small>Just click on any user to start a private Chat</small>
 </div>
-
-<input [(ngModel)]="message" (keyup)="$event.keyCode == 13 && sendMessage()" />
-<button (click)="sendMessage()">Send</button>
+<div class="messages">
+	<h3>Lobby Chat</h3>
+	<div *ngFor="let message of messages" class="message">
+		{{ message }}
+	</div>
+	<input [(ngModel)]="message" (keyup)="$event.keyCode == 13 && sendMessage()" />
+	<button (click)="sendMessage()">Send</button>
+</div>
+<div class="messages" *ngFor="let id of privateRoomIds; let index = index">
+	<h4>Your Chat with {{ privateChatwithUser[index] }}</h4>
+	<div *ngFor="let privateMessage of privateMessages[privateRoomIds[index]]" class="message">
+		{{ privateMessage }}
+	</div>
+	<input [(ngModel)]="privateMessage[index]" (keyup)="$event.keyCode == 13 && sendMessage()" />
+	<button (click)="sendPrivateMessage(index)">Send</button>
+</div>

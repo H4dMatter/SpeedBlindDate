@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Observable';
 export class ChatService {
 	private url = 'http://localhost:3000';
 	private socket;
-	private connectedUsers = [];
 
 	constructor() {
 		this.socket = io(this.url);
@@ -19,6 +18,30 @@ export class ChatService {
 
 	public newUser(username) {
 		this.socket.emit('new-user', username);
+	}
+
+	startPrivateChat(username) {
+		this.socket.emit('private-chat', username);
+	}
+
+	enterPrivateChat() {
+		return Observable.create(observer => {
+			this.socket.on('private-room', message => {
+				observer.next(message);
+			});
+		});
+	}
+
+	sendPrivateMessage(roomNr: number, message) {
+		this.socket.emit('private-message', { roomNr: roomNr, message: message });
+	}
+
+	getPrivateMessage() {
+		return Observable.create(observer => {
+			this.socket.on('private-message', message => {
+				observer.next(message);
+			});
+		});
 	}
 
 	public getUserList() {
