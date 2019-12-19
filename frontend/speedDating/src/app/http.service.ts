@@ -24,6 +24,10 @@ export class HttpService {
 		});
 	}
 
+	addMessages() {
+		console.log('hey there, msg save');
+	}
+
 	showUser() {
 		return this.http.get('http://localhost:5000/user/' + this.globals.username, {
 			responseType: 'json'

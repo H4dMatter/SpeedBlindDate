@@ -20,19 +20,19 @@ export class ChatService {
 		this.socket.emit('new-user', username);
 	}
 
-	startPrivateChat(username) {
-		this.socket.emit('private-chat', username);
+	startPrivateChat(usernames) {
+		this.socket.emit('private-chat', usernames);
 	}
 
 	enterPrivateChat() {
 		return Observable.create(observer => {
-			this.socket.on('private-room', message => {
-				observer.next(message);
+			this.socket.on('private-room', messageObj => {
+				observer.next(messageObj);
 			});
 		});
 	}
 
-	sendPrivateMessage(roomNr: number, message) {
+	sendPrivateMessage(roomNr: number, message: string) {
 		this.socket.emit('private-message', { roomNr: roomNr, message: message });
 	}
 

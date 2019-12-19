@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { Globals } from '../globals';
+import { HttpService } from '../http.service';
 
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/filter';
@@ -23,7 +24,11 @@ export class ChatComponent implements OnInit {
 	privateRoomIds: number[] = [];
 	privateMessages = [[]];
 
-	constructor(private chatService: ChatService, public globals: Globals) {}
+	constructor(
+		private chatService: ChatService,
+		public globals: Globals,
+		public http: HttpService
+	) {}
 
 	sendMessage() {
 		this.chatService.sendMessage(this.globals.username + ': ' + this.message);
@@ -32,19 +37,23 @@ export class ChatComponent implements OnInit {
 
 	ngOnDestroy() {
 		this.chatService.disconnectUser();
+		this.http.addMessages();
 	}
 
 	privateChat(user) {
 		if (user == this.globals.username) {
 			console.log("You shouldn't chat with yourself, pick one of these other lovely people ;)");
 		} else {
-			this.chatService.startPrivateChat(user);
+			this.chatService.startPrivateChat({ to: user, from: this.globals.username });
 			this.privateChatwithUser.push(user);
 		}
 	}
 
 	sendPrivateMessage(index) {
-		this.chatService.sendPrivateMessage(this.privateRoomIds[index], this.privateMessage[index]);
+		this.chatService.sendPrivateMessage(
+			this.privateRoomIds[index],
+			this.globals.username + ': ' + this.privateMessage[index]
+		);
 		this.privateMessage[index] = '';
 	}
 
@@ -62,9 +71,14 @@ export class ChatComponent implements OnInit {
 			.subscribe((message: string) => {
 				this.messages.push(message);
 			});
-		this.chatService.enterPrivateChat().subscribe((message: number) => {
-			this.privateRoomIds.push(message);
+		this.chatService.enterPrivateChat().subscribe((msgObj: any) => {
+			this.privateRoomIds.push(msgObj.privateRoomId);
+			if (msgObj.username != this.globals.username) {
+				this.privateChatwithUser.push(msgObj.username);
+				console.log('hi im here');
+			}
 			console.log(this.privateRoomIds);
+			console.log(this.privateChatwithUser);
 		});
 		this.chatService.getPrivateMessage().subscribe(message => {
 			console.log(message);

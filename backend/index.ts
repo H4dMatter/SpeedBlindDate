@@ -41,10 +41,13 @@ io.sockets.on('connection', function(client) {
 		io.emit('new-message', message);
 	});
 
-	client.on('private-chat', username => {
+	client.on('private-chat', usernames => {
 		client.join('room' + privateRoomId);
-		users[username].join('room' + privateRoomId);
-		io.to('room' + privateRoomId).emit('private-room', privateRoomId);
+		users[usernames.to].join('room' + privateRoomId);
+		io.to('room' + privateRoomId).emit('private-room', {
+			privateRoomId: privateRoomId,
+			username: usernames.from
+		});
 		privateRoomId++;
 	});
 
