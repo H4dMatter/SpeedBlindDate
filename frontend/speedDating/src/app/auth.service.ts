@@ -2,24 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class AuthService {
+	constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
+	userLogin(data) {
+		return this.http.post('http://localhost:5000/user/login', data);
+	}
 
-  userLogin(data) {
-   return this.http.post('http://localhost:5000/user/login', data);
-  }
+	registrationUser(data) {
+		console.log(data);
+		return this.http.post('http://localhost:5000/user', data);
+	}
 
-  registrationUser(data) {
-    console.log(data);
-    return this.http.post('http://localhost:5000/user', data, );
-  }
-
-  loggedIn() {
-    return !!localStorage.getItem('token');
-  }
+	loggedIn() {
+		return !!localStorage.getItem('token');
+	}
 }
-
-

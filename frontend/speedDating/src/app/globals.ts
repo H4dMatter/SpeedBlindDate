@@ -5,8 +5,7 @@ import { AuthService } from './auth.service';
 	providedIn: 'root'
 })
 export class Globals {
-  constructor(private auth: AuthService) {
-  }
+	constructor(private auth: AuthService) {}
 	username: string = null;
 	isLoggedIn: boolean = this.auth.loggedIn();
 	isNewUser: boolean = false;

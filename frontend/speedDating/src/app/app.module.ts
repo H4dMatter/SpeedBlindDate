@@ -35,7 +35,7 @@ import { ChatService } from './chat.service';
 		HttpClientModule,
 		FlashMessagesModule.forRoot()
 	],
-	providers: [AuthService, AuthGuard],
+	providers: [AuthService, AuthGuard, ChatService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {}
