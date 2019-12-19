@@ -14,18 +14,27 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 
+import { ChatComponent } from './chat/chat.component';
+import { ChatService } from './chat.service';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		ProfileComponent,
 		NavbarComponent,
-    ProfileFormComponent,
-    LoginComponent,
-    RegisterComponent,
-    ShowUserComponent
+		ProfileFormComponent,
+		LoginComponent,
+		RegisterComponent,
+		ShowUserComponent,
+		ChatComponent
 	],
-	imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, FlashMessagesModule.forRoot()],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		FormsModule,
+		HttpClientModule,
+		FlashMessagesModule.forRoot()
+	],
 	providers: [AuthService, AuthGuard],
 	bootstrap: [AppComponent]
 })

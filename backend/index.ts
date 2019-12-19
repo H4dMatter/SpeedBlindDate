@@ -5,9 +5,61 @@ const bcrypt = require('bcryptjs');
 const User = require('./dbConfigUser').User;
 const Profile = require('./dbConfigUser').Profile;
 const jwt = require('jsonwebtoken');
-const app = express();
-const http = require('http');
-const cors = require('cors');
+
+var app = express();
+
+var cors = require('cors');
+
+let http = require('http');
+let server = http.Server(app);
+let socketIO = require('socket.io');
+let io = socketIO(server);
+const chatPort = process.env.PORT || 3000;
+
+var users = {};
+
+var privateRoomId = 0;
+
+io.sockets.on('connection', function(client) {
+	client.on('new-user', function(username) {
+		client.username = username;
+		console.log(username + ' connected');
+		users[client.username] = client;
+		io.emit('new-user', Object.keys(users));
+	});
+
+	client.on('disconnect', function() {
+		delete users[client.username];
+		console.log('user disconnected');
+		io.emit('new-user', Object.keys(users));
+	});
+
+	client.on('new-message', message => {
+		io.emit('new-message', message);
+	});
+
+	client.on('private-chat', usernames => {
+		client.join('room' + privateRoomId);
+		users[usernames.to].join('room' + privateRoomId);
+		io.to('room' + privateRoomId).emit('private-room', {
+			privateRoomId: privateRoomId,
+			username: usernames.from
+		});
+		privateRoomId++;
+	});
+
+	client.on('private-message', messageObj => {
+		console.log(messageObj.roomNr + ' ' + messageObj.message);
+		io.to('room' + messageObj.roomNr).emit('private-message', messageObj);
+	});
+});
+
+server.listen(chatPort, () => {
+	console.log(`started on port: ${chatPort}`);
+});
+
+//Brings in local strategy from passport-config file
+//require('./passport-config')(passport);
 
 //Uses
 router.use(cors());
@@ -141,12 +193,13 @@ function getProfile(req, res) {
 async function loginUser(req, res) {
 	let userData = req.body;
 
-	if (!req.body.username || !req.body.password){
+	if (!req.body.username || !req.body.password) {
 		res.writeHead(400, 'Invalid input - not all required fields filled in');
 		res.end();
 	} else {
-		User.findOne({username: userData.username}, (err, user) => {
-			if (err) { console.log(err);
+		User.findOne({ username: userData.username }, (err, user) => {
+			if (err) {
+				console.log(err);
 			} else {
 				if (!user) {
 					res.writeHead(404, 'User not found');
@@ -157,9 +210,9 @@ async function loginUser(req, res) {
 							res.writeHead(401, 'Password mismatch');
 							res.end();
 						} else {
-							let payload = {subject: user.username};
+							let payload = { subject: user.username };
 							let token = jwt.sign(payload, 'secretKey');
-							res.send({token});
+							res.send({ token });
 						}
 					});
 				}
@@ -178,13 +231,13 @@ async function updateUser(req, res) {
 	let userToBeUpdated;
 	console.log(req.body.username + ' ' + req.body.email);
 
-	await User.find({username: req.body.username}, async (err, usersbyUsername) => {
+	await User.find({ username: req.body.username }, async (err, usersbyUsername) => {
 		if (err) console.log('error'); //redirect
 		if (usersbyUsername.length > 1) {
 			res.writeHead(406, 'Username already taken');
 			res.end();
 		} else {
-			await User.find({email: req.body.email}, (err, usersbyEmail) => {
+			await User.find({ email: req.body.email }, (err, usersbyEmail) => {
 				if (err) console.log('error'); //redirect
 				if (usersbyEmail.length > 1) {
 					res.writeHead(409, 'Email already taken');
@@ -195,7 +248,7 @@ async function updateUser(req, res) {
 						username: req.body.username
 					};
 
-					User.findOneAndUpdate({username: req.params.username}, userToBeUpdated, (err, user) => {
+					User.findOneAndUpdate({ username: req.params.username }, userToBeUpdated, (err, user) => {
 						if (err) console.log('error'); //redirect
 						if (user) {
 							res.json(userToBeUpdated);
@@ -210,7 +263,6 @@ async function updateUser(req, res) {
 	});
 }
 
-
 /**
  * Registrates new user - but checks before if user already exists - and saves it to database
  * @param {object} req - Represents the request object
@@ -218,7 +270,6 @@ async function updateUser(req, res) {
  *
  */
 async function registrationUser(req, res) {
-
 	await User.findOne({ email: req.body.email }, async (err, user) => {
 		if (err) console.log('error'); //redirect
 		if (user) {
@@ -231,7 +282,7 @@ async function registrationUser(req, res) {
 					res.writeHead(406, 'Username already taken');
 					res.end();
 				} else {
-					const {email, username, passwordOne, passwordTwo} = req.body;
+					const { email, username, passwordOne, passwordTwo } = req.body;
 
 					// If not all required fields are filled in or password-mismatch
 					if (!email || !username || !passwordOne || !passwordTwo) {
@@ -243,25 +294,24 @@ async function registrationUser(req, res) {
 							res.writeHead(401, 'Password mismatch');
 							res.end();
 						} else {
-								//Valid input
-								const hashedPW = await bcrypt.hash(req.body.passwordOne, 10);
+							//Valid input
+							const hashedPW = await bcrypt.hash(req.body.passwordOne, 10);
 
-								const user = new User({
-									email: req.body.email,
-									username: req.body.username,
-									password: hashedPW
-								});
+							const user = new User({
+								email: req.body.email,
+								username: req.body.username,
+								password: hashedPW
+							});
 
-								user.save();
-								let payload = {subject: user.username};
-								let token = jwt.sign(payload, 'secretKey');
-								res.send({token});
+							user.save();
+							let payload = { subject: user.username };
+							let token = jwt.sign(payload, 'secretKey');
+							res.send({ token });
 						}
 					}
 				}
 			});
 		}
-
 	});
 }
 
@@ -274,7 +324,7 @@ async function registrationUser(req, res) {
 function showUser(req, res) {
 	User.findOne({ username: req.params.username }, (err, user) => {
 		if (err) console.log('error');
-		if (!user){
+		if (!user) {
 			res.writeHead(404, 'User not found');
 			res.end();
 		} else {
@@ -290,7 +340,6 @@ function showUser(req, res) {
  *
  */
 async function deleteUser(req, res) {
-
 	await User.findOneAndDelete({ username: req.params.username }, async (err, user) => {
 		if (err) console.log('error');
 		if (user) {
@@ -306,7 +355,7 @@ async function deleteUser(req, res) {
 			res.end();
 		}
 	});
-	res.json({msg: 'Successful deletion'});
+	res.json({ msg: 'Successful deletion' });
 }
 
 //Functions not needed anymore since better solution but better not delete for now
@@ -329,7 +378,6 @@ async function deleteUser(req, res) {
 	}
 }*/
 
-
 /*/**
  * Logs out user with passport authentification local strategy - now realized in frontend with tokens
  * @param req - Represents the request object
@@ -341,10 +389,8 @@ async function deleteUser(req, res) {
 	res.send('Successfully logged out');
 }*/
 
-
 /*//Brings in local strategy from passport-config file
 require('./passport-config')(passport);*/
-
 
 /*router.use(
 	session({

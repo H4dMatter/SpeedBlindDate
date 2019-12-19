@@ -1,0 +1,27 @@
+<div class="friendslist">
+	<div *ngFor="let user of connectedUsers" (click)="privateChat(user)">
+		{{ user }}
+		<br />
+	</div>
+	<small>Just click on any user to start a private Chat</small>
+</div>
+<br />
+<div class="card text-white bg-primary mb-3 messages">
+	<div class="card-header">Lobby Chat</div>
+	<div *ngFor="let message of messages" class="message">
+		{{ message }}
+	</div>
+	<input [(ngModel)]="message" (keyup)="$event.keyCode == 13 && sendMessage()" />
+	<button (click)="sendMessage()">Send</button>
+</div>
+<div
+	class="card border-secondary mb-3 messages"
+	*ngFor="let id of privateRoomIds; let index = index"
+>
+	<div class="card-header">Your Chat with {{ privateChatwithUser[index] }}</div>
+	<div *ngFor="let privateMessage of privateMessages[privateRoomIds[index]]" class="message">
+		{{ privateMessage }}
+	</div>
+	<input [(ngModel)]="privateMessage[index]" (keyup)="$event.keyCode == 13 && sendMessage()" />
+	<button (click)="sendPrivateMessage(index)">Send</button>
+</div>
