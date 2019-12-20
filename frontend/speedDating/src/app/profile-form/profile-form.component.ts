@@ -27,6 +27,7 @@ export class ProfileFormComponent implements OnInit {
 	images: [{ data: 'Buffer'; contentType: string }] = null;
 
 	submit(data) {
+	  console.log(this.username);
 		data.username = this.globals.username;
 		this.globals.isNewUser ? this.addNewProfile(data) : this.changeProfile(data);
 	}

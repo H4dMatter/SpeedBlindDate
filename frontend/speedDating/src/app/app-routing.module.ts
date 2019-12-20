@@ -8,7 +8,7 @@ import { ShowUserComponent } from './show-user/show-user.component';
 import { AuthGuard } from './auth.guard';
 import { ChatComponent } from './chat/chat.component';
 
-const routes: Routes = [
+export const routes: Routes = [
 	{ path: '', component: LoginComponent },
 	{ path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
 	{ path: 'profile', component: ProfileFormComponent, canActivate: [AuthGuard] },

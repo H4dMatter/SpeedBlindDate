@@ -115,8 +115,8 @@ function saveMessages(req, res) {
 
 /**
  * This function saves profile to database
- * @param req - Represents the request object
- * @param res - Represents the response object
+ * @param {object} req - Represents the request object
+ * @param {object} res - Represents the response object
  */
 function profileUser(req, res) {
 	let hobbies = null;
@@ -148,8 +148,8 @@ function profileUser(req, res) {
 
 /**
  * This function changes profile and updates it in database
- * @param req - Represents the request object
- * @param res - Represents the response object
+ * @param {object} req - Represents the request object
+ * @param {object} res - Represents the response object
  */
 function changeProfile(req, res) {
 	let hobbies = null;
@@ -184,8 +184,8 @@ function changeProfile(req, res) {
 
 /**
  * This function gets profile and sends it to frontend
- * @param req - Represents the request object
- * @param res - Represents the response object
+ * @param {object} req - Represents the request object
+ * @param {object} res - Represents the response object
  */
 function getProfile(req, res) {
 	console.log(req.params.username);
@@ -330,8 +330,8 @@ async function registrationUser(req, res) {
 /**
  * Login data are presented in Blind Date > User Info as default input value
  * changeable
- * @param req - Represents the request object
- * @param res - Represents the response object
+ * @param {object} req - Represents the request object
+ * @param {object} res - Represents the response object
  */
 function showUser(req, res) {
 	User.findOne({ username: req.params.username }, (err, user) => {
@@ -347,8 +347,8 @@ function showUser(req, res) {
 
 /**
  * Deletes user and profile in Blind Date > User Info as default input value
- * @param req - Represents the request object
- * @param res - Represents the response object
+ * @param {object} req - Represents the request object
+ * @param {object} res - Represents the response object
  *
  */
 async function deleteUser(req, res) {
