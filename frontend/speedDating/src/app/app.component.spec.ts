@@ -5,6 +5,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { FlashMessagesComponent } from 'angular2-flash-messages/module/flash-messages.component';
+import { ProfileComponent } from './profile/profile.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -16,7 +17,8 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         NavbarComponent,
-        FlashMessagesComponent
+        FlashMessagesComponent,
+        ProfileComponent
       ],
       providers: [
         FlashMessagesService

@@ -14,7 +14,7 @@ import { ChatComponent } from '../chat/chat.component';
 import { ProfileFormComponent } from '../profile-form/profile-form.component';
 import { ShowUserComponent } from '../show-user/show-user.component';
 import * as jwt_decode from 'jwt-decode';
-
+import { ProfileComponent } from '../profile/profile.component';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -39,7 +39,8 @@ describe('RegisterComponent', () => {
         FlashMessagesComponent,
         ChatComponent,
         ProfileFormComponent,
-        ShowUserComponent
+        ShowUserComponent,
+        ProfileComponent
       ],
       providers: [
         FlashMessagesService

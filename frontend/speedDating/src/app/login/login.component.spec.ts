@@ -13,7 +13,7 @@ import { routes } from '../app-routing.module';
 import { ChatComponent } from '../chat/chat.component';
 import { ProfileFormComponent } from '../profile-form/profile-form.component';
 import { ShowUserComponent } from '../show-user/show-user.component';
-
+import { ProfileComponent } from '../profile/profile.component';
 
 describe('LoginComponent', () => {
   let location: Location;
@@ -38,7 +38,8 @@ describe('LoginComponent', () => {
         FlashMessagesComponent,
         ChatComponent,
         ProfileFormComponent,
-        ShowUserComponent
+        ShowUserComponent,
+        ProfileComponent
       ],
       providers: [
         FlashMessagesService
