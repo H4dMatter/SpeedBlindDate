@@ -3,7 +3,7 @@ import { HttpService } from '../http.service';
 import { Globals } from '../globals';
 import { ResponseObject } from './response-object';
 import { FlashMessagesService } from 'angular2-flash-messages';
-
+import * as jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 
 @Component({
@@ -27,6 +27,7 @@ export class ProfileFormComponent implements OnInit {
 	images: [{ data: 'Buffer'; contentType: string }] = null;
 
 	submit(data) {
+	  console.log(this.username);
 		data.username = this.globals.username;
 		this.globals.isNewUser ? this.addNewProfile(data) : this.changeProfile(data);
 	}

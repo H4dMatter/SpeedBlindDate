@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
+
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
@@ -21,11 +22,11 @@ export class LoginComponent implements OnInit {
 	ngOnInit() {}
 
 	onClickSubmit(data) {
-		this.auth.userLogin(data).subscribe(
+      this.auth.userLogin(data).subscribe(
 			(res: any) => {
 				this.token = res.token;
+				console.log(this.token);
 				this.globals.username = data.username;
-				localStorage.setItem('token', this.token);
 				this.globals.isLoggedIn = this.auth.loggedIn();
 				this.router.navigate(['/profile']);
 				this.flash.show('Successfully logged in', { cssClass: 'alert-secondary' });
