@@ -11,12 +11,12 @@
 	"host": "www.example.de",
 	"tags": [
 		{
-			"name": "chatMsg",
+			"name": "chatLog",
 			"description": "Messages between our users"
 		},
 		{
 			"name": "user",
-			"description": "Operations concerning users"
+			"description": "Operations concerning users and their accounts"
 		},
 		{
 			"name": "profile",
@@ -36,11 +36,11 @@
 				"parameters": [
 					{
 						"in": "body",
-						"name": "user",
-						"description": "Profile Object",
+						"name": "username",
+						"description": "Username corresponding to the Profile",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/Profile"
+							"type": "string"
 						}
 					}
 				],
@@ -54,22 +54,46 @@
 				}
 			}
 		},
-		"/profile/{id}": {
+		"/profile/{username}": {
 			"get": {
 				"tags": ["profile"],
 				"parameters": [
 					{
-						"name": "id",
+						"name": "username",
 						"in": "path",
-						"description": "The user id of the user, whom the profile belongs to",
+						"description": "The username of the user, whom the profile belongs to",
 						"required": true,
-						"type": "integer"
+						"type": "string"
 					}
 				],
 				"produces": ["application/json"],
 				"responses": {
 					"200": {
 						"description": "Profile added successfully",
+						"schema": {
+							"$ref": "#/definitions/Profile"
+						}
+					},
+					"405": {
+						"description": "Invalid input"
+					}
+				}
+			},
+			"put": {
+				"tags": ["profile"],
+				"parameters": [
+					{
+						"name": "username",
+						"in": "path",
+						"description": "The username of the user, whom the profile belongs to",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "Changed Profile information successfully",
 						"schema": {
 							"$ref": "#/definitions/Profile"
 						}
@@ -109,12 +133,7 @@
 					"422": {
 						"description": "Invalid username supplied"
 					}
-				},
-				"security": [
-					{
-						"petstore_auth": ["write:pets", "read:pets"]
-					}
-				]
+				}
 			}
 		},
 		"/user/login": {
@@ -268,30 +287,60 @@
 					}
 				}
 			}
-		}
-	},
-	"securityDefinitions": {
-		"petstore_auth": {
-			"type": "oauth2",
-			"authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-			"flow": "implicit",
-			"scopes": {
-				"write:pets": "modify pets in your account",
-				"read:pets": "read your pets"
-			}
 		},
-		"api_key": {
-			"type": "apiKey",
-			"name": "api_key",
-			"in": "header"
+		"/chatLog": {
+			"post": {
+				"tags": ["chatLog"],
+				"summary": "Add a new chat log to the Database",
+				"description": "",
+				"operationId": "saveMessages",
+				"consumes": ["application/json"],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "chatLog",
+						"description": "Chat log Object",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ChatLog"
+						}
+					}
+				],
+				"responses": {
+					"405": {
+						"description": "Invalid input"
+					},
+					"422": {
+						"description": "Invalid username supplied"
+					}
+				}
+			}
 		}
 	},
 	"definitions": {
+		"ChatLog": {
+			"type": "object",
+			"properties": {
+				"betweenUsers": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"chatLog": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			}
+		},
 		"Profile": {
 			"type": "object",
 			"properties": {
-				"user": {
-					"$ref": "#/definitions/User"
+				"username": {
+					"type": "string",
+					"example": "loveBunny42"
 				},
 				"firstName": {
 					"type": "string",
@@ -339,12 +388,6 @@
 								}
 							}
 						}
-					}
-				},
-				"images": {
-					"type": "array",
-					"items": {
-						"type": "string"
 					}
 				}
 			}

@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('./dbConfigUser').User;
 const Profile = require('./dbConfigUser').Profile;
+const ChatLog = require('./dbConfigUser').ChatLog;
 const jwt = require('jsonwebtoken');
 
 var app = express();
@@ -49,9 +50,12 @@ io.sockets.on('connection', function(client) {
 	});
 
 	client.on('private-message', messageObj => {
-		console.log(messageObj.roomNr + ' ' + messageObj.message);
 		io.to('room' + messageObj.roomNr).emit('private-message', messageObj);
 	});
+
+	// client.on('leave-private-rooms', privateRoomIds => {
+	// 	console.log(messageObj.roomNr + ' ' + messageObj.message);
+	// });
 });
 
 server.listen(chatPort, () => {
@@ -71,7 +75,6 @@ router.use(express.urlencoded({ extended: true }));
 //User Registration
 router.post('/user', (req, res) => registrationUser(req, res));
 
-//TODO: Images!
 router.post('/profile', (req, res) => profileUser(req, res));
 
 //Gets specific profile by username
@@ -92,7 +95,23 @@ router.delete('/user/:username', (req, res) => deleteUser(req, res));
 //Update user
 router.put('/user/:username', (req, res) => updateUser(req, res));
 
+router.post('/chatLog', (req, res) => saveMessages(req, res));
+
 //Functions
+function saveMessages(req, res) {
+	console.log(req.body);
+	let chatLogElement = new ChatLog({
+		betweenUsers: req.body.betweenUsers,
+		chatLog: req.body.chatLog
+	});
+	ChatLog.updateOne(
+		{ betweenUsers: req.body.betweenUsers },
+		{ chatLog: req.body.chatLog },
+		{
+			upsert: true
+		}
+	).then(() => res.send('Messages logged successfully'));
+}
 
 /**
  * This function saves profile to database
@@ -100,9 +119,6 @@ router.put('/user/:username', (req, res) => updateUser(req, res));
  * @param res - Represents the response object
  */
 function profileUser(req, res) {
-	console.log('Profile created, Body:');
-	console.log(req.body);
-
 	let hobbies = null;
 	if (req.body.hobbies != null) {
 		hobbies = req.body.hobbies.split(',');
@@ -126,7 +142,6 @@ function profileUser(req, res) {
 			}
 		}
 	});
-	console.log(profile);
 
 	profile.save().then(() => res.send('Profile created successfully'));
 }
@@ -137,9 +152,6 @@ function profileUser(req, res) {
  * @param res - Represents the response object
  */
 function changeProfile(req, res) {
-	console.log('Profile of ' + req.body.username + ' will be updated with: ');
-	console.log(req.body);
-
 	let hobbies = null;
 	if (req.body.hobbies != null) {
 		hobbies = req.body.hobbies.split(',');

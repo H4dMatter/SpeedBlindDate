@@ -24,4 +24,9 @@
 	</div>
 	<input [(ngModel)]="privateMessage[index]" (keyup)="$event.keyCode == 13 && sendMessage()" />
 	<button (click)="sendPrivateMessage(index)">Send</button>
+	<button (click)="showTheirProfile(index)">Show Profile</button>
 </div>
+<app-profile
+	*ngIf="showOtherPersonsProfile"
+	[otherPersonsProfile]="otherPersonsProfile"
+></app-profile>

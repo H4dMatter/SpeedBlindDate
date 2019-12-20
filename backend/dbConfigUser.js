@@ -1,7 +1,6 @@
 //Packages
 const mongoose = require('mongoose');
 
-
 //User Schema
 const userSchema = new mongoose.Schema(
 	{
@@ -22,7 +21,6 @@ const userSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model('User', userSchema);
-
 
 //Profile Schema
 const profileSchema = new mongoose.Schema(
@@ -47,4 +45,14 @@ const profileSchema = new mongoose.Schema(
 
 const Profile = mongoose.model('Profile', profileSchema);
 
-module.exports = { User: User, Profile: Profile };
+const chatLogSchema = new mongoose.Schema(
+	{
+		betweenUsers: [String],
+		chatLog: [String]
+	},
+	{ collection: 'chatLogs' }
+);
+
+const ChatLog = mongoose.model('ChatLog', chatLogSchema);
+
+module.exports = { User: User, Profile: Profile, ChatLog: ChatLog };

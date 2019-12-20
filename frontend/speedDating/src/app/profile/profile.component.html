@@ -1,9 +1,114 @@
-<!-- <h1>Profile</h1>
-
-<div class="container">
-	<form action="">
-		<input type="text" [(ngModel)]="firstName" />
-		<input type="text" [(ngModel)]="lastName" />
-		<input type="number" [(ngModel)]="age" />
-	</form>
-</div> -->
+<fieldset>
+	<h1>Their Profile</h1>
+	<div class="form-group">
+		<div id="firstName">First Name : {{ otherPersonsProfile.firstName }}</div>
+	</div>
+	<div class="form-group">
+		<div id="lastName">Last Name : {{ otherPersonsProfile.lastName }}</div>
+	</div>
+	<div class="form-group">
+		<div id="age">Age : {{ otherPersonsProfile.age }}</div>
+	</div>
+	<div class="form-group">
+		<div id="age">Hobbies : {{ otherPersonsProfile.hobbies }}</div>
+	</div>
+	<div class="form-group">
+		<div id="gender">Gender : {{ otherPersonsProfile.gender }}</div>
+	</div>
+	<div class="form-group">
+		<div id="genderPref">Gender Preference : {{ otherPersonsProfile.preferences.genderPref }}</div>
+	</div>
+	<div class="form-group">
+		<div id="minAge">Pref. min age : {{ otherPersonsProfile.preferences.ageRange.minAge }}</div>
+	</div>
+	<div class="form-group">
+		<div id="maxAge">Pref max age : {{ otherPersonsProfile.preferences.ageRange.maxAge }}</div>
+	</div>
+	<!-- <div class="form-group">
+		<label for="lastName">Last Name</label>
+		<div
+			type="text"
+			class="form-control"
+			id="lastName"
+			[placeholder]="lastName == null ? 'Enter your last name' : ''"
+			name="lastName"
+			[(ngModel)]="lastName"
+		/>
+	</div>
+	<div class="form-group">
+		<label for="age">Age</label>
+		<div
+			type="number"
+			class="form-control"
+			id="age"
+			placeholder="Enter your age"
+			name="age"
+			[(ngModel)]="age"
+		/>
+	</div>
+	<div class="form-group">
+		<label for="hobbies">Hobbies</label>
+		<textarea
+			class="form-control"
+			id="hobbies"
+			rows="3"
+			name="hobbies"
+			[(ngModel)]="hobbies"
+		></textarea>
+		<small id="hobbiesHelp" class="form-text text-muted">
+			Please enter as many hobbies as you like, seperated by a comma.
+		</small>
+	</div>
+	<div class="form-group form-inline">
+		<label for="gender">Gender</label>
+		<select id="gender" class="custom-select" name="gender" [(ngModel)]="gender">
+			<option value="male">male</option>
+			<option value="female">female</option>
+			<option value="other" selected="">other</option>
+		</select>
+	</div>
+	<div class="form-group" id="preferencesGroup">
+		<label for="preferences">Preferences</label>
+		<div class="form-group form-inline" id="preferences">
+			<div class="form-group ">
+				<label for="genderPref">Gender</label>
+				<select class="custom-select" id="genderPref" name="genderPref" [(ngModel)]="genderPref">
+					<option value="male">male</option>
+					<option value="female">female</option>
+					<option value="both" selected>both</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="minAge">Minimum age</label>
+				<div
+					type="number"
+					class="form-control"
+					id="minAge"
+					placeholder="Prefered minimum age"
+					name="minAge"
+					[(ngModel)]="minAge"
+				/>
+			</div>
+			<div class="form-group">
+				<label for="maxAge">Maximum age</label>
+				<div
+					type="number"
+					class="form-control"
+					id="maxAge"
+					placeholder="Prefered maximum age"
+					name="maxAge"
+					[(ngModel)]="maxAge"
+				/>
+			</div>
+		</div>
+	</div>
+	<button type="submit" class="btn btn-primary">
+		{{ this.globals.isNewUser == true ? 'Submit' : 'Change profile info' }}
+	</button>
+	<ng-template [ngIf]="!this.globals.isNewUser">
+		<small id="fileHelp" class="form-text text-muted"
+			>To edit any of your infotmation, just change them here and click on the button "Change
+			profile info" above
+		</small>
+	</ng-template> -->
+</fieldset>

@@ -3,6 +3,7 @@ import { ChatService } from '../chat.service';
 import { Globals } from '../globals';
 import { HttpService } from '../http.service';
 
+import { ProfileComponent } from '../profile/profile.component';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/skipWhile';
@@ -24,20 +25,64 @@ export class ChatComponent implements OnInit {
 	privateRoomIds: number[] = [];
 	privateMessages = [[]];
 
+	otherPersonsProfile: any = {
+		firstName: null,
+		lastName: null,
+		age: null,
+		hobbies: null,
+		gender: null,
+		preferences: {
+			genderPref: null,
+			ageRange: {
+				minAge: null,
+				maxAge: null
+			}
+		}
+	};
+	showOtherPersonsProfile = false;
+
 	constructor(
 		private chatService: ChatService,
 		public globals: Globals,
 		public http: HttpService
 	) {}
 
+	ngOnDestroy() {
+		this.chatService.disconnectUser();
+		var chatLogs = this.privateMessages.filter(function(el) {
+			return el != null && el.length != 0;
+		});
+		console.log(chatLogs);
+		var msgObj = { betweenUsers: [], chatLog: [] };
+		this.privateChatwithUser.forEach((user, index) => {
+			console.log('Chat between ' + this.globals.username + ' and ' + user + ' has ended ');
+			console.log(chatLogs[index]);
+			let betweenUsers: string[] = [this.globals.username, user].sort();
+			msgObj = { betweenUsers: betweenUsers, chatLog: chatLogs[index] };
+		});
+		if (msgObj.chatLog == undefined) console.log('No Messages to save');
+		else if (msgObj.betweenUsers.length == 2 && msgObj.chatLog.length > 0) {
+			this.http.addMessages(msgObj).subscribe((message: string) => {
+				console.log(message);
+			});
+		} else {
+			console.log('Something went wrong with your private chats!');
+		}
+		this.showOtherPersonsProfile = false;
+	}
+
 	sendMessage() {
 		this.chatService.sendMessage(this.globals.username + ': ' + this.message);
 		this.message = '';
 	}
 
-	ngOnDestroy() {
-		this.chatService.disconnectUser();
-		this.http.addMessages();
+	showTheirProfile(index) {
+		console.log('show profile of ' + this.privateChatwithUser[index]);
+		this.http.getOtherPersonsProfile(this.privateChatwithUser[index]).subscribe(message => {
+			console.log(message);
+			this.otherPersonsProfile = message;
+			this.showOtherPersonsProfile = true;
+		});
 	}
 
 	privateChat(user) {
