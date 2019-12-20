@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-	<a class="navbar-brand" href="#">
+	<a id="navbar-brand" class="navbar-brand" href="#" routerLink="/chat" routerLinkActive="active">
 		Blind Date
 	</a>
 
@@ -25,7 +25,7 @@
 				<a class="nav-link" href="#" routerLink="/profile" routerLinkActive="active">Profile</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#" routerLink="/chat" routerLinkActive="active">Chat Room</a>
+				<a class="nav-link" id="chatRoom" href="#" routerLink="/chat" routerLinkActive="active">Chat Room</a>
 			</li>
 		</ul>
 		<button type="button" class="btn btn-secondary" (click)="logoutUser()" routerLink="/">

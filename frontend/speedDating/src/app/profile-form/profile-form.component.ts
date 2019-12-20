@@ -3,7 +3,7 @@ import { HttpService } from '../http.service';
 import { Globals } from '../globals';
 import { ResponseObject } from './response-object';
 import { FlashMessagesService } from 'angular2-flash-messages';
-import * as jwt_decode from 'jwt-decode';
+
 import { Router } from '@angular/router';
 
 @Component({

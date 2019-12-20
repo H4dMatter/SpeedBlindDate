@@ -25,7 +25,6 @@ export class RegisterComponent implements OnInit {
 
         localStorage.setItem('token', this.token);
 
-        this.globals.isLoggedIn = this.auth.loggedIn();
         this.router.navigate(['/profile']);
         this.flash.show('Successfully registered', {cssClass: 'alert-secondary'});
       },
@@ -36,16 +35,9 @@ export class RegisterComponent implements OnInit {
       () => {
         this.globals.username = data.username;
         this.globals.isNewUser = true;
+        this.globals.isLoggedIn = true;
       }
     );
   }
 }
 
-/*this.auth.registrationUser(data).subscribe(
-  res => console.log(res),
-  err => {
-    console.log(err.statusText);
-  },
-
-);
-}*/

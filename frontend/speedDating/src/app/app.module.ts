@@ -16,8 +16,8 @@ import {FlashMessagesModule, FlashMessagesService} from 'angular2-flash-messages
 
 import { ChatComponent } from './chat/chat.component';
 import { ChatService } from './chat.service';
-import * as jwt_decode from 'jwt-decode';
-import { BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
+
+
 
 @NgModule({
 	declarations: [
@@ -36,7 +36,6 @@ import { BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/te
 		FormsModule,
 		HttpClientModule,
     ReactiveFormsModule,
-    BrowserDynamicTestingModule,
 		FlashMessagesModule.forRoot()
 	],
   exports: [

@@ -5,22 +5,18 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { FlashMessagesComponent } from 'angular2-flash-messages/module/flash-messages.component';
-import * as jwt_decode from 'jwt-decode';
-import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        HttpClientTestingModule,
-        BrowserDynamicTestingModule
+        HttpClientTestingModule
       ],
       declarations: [
         AppComponent,
         NavbarComponent,
-        FlashMessagesComponent,
-        jwt_decode
+        FlashMessagesComponent
       ],
       providers: [
         FlashMessagesService
@@ -37,6 +33,6 @@ describe('AppComponent', () => {
   it(`should have as title 'speedDating'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('SpeedDating');
+    expect(app.title).toEqual('speedDating');
   });
 });

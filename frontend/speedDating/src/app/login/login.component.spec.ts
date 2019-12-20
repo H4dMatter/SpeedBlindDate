@@ -13,8 +13,6 @@ import { routes } from '../app-routing.module';
 import { ChatComponent } from '../chat/chat.component';
 import { ProfileFormComponent } from '../profile-form/profile-form.component';
 import { ShowUserComponent } from '../show-user/show-user.component';
-import * as jwt_decode from 'jwt-decode';
-import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 
 
 describe('LoginComponent', () => {
@@ -32,8 +30,6 @@ describe('LoginComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule.withRoutes(routes),
         FormsModule,
-        BrowserDynamicTestingModule,
-        jwt_decode
       ],
       declarations: [
         LoginComponent,
@@ -83,3 +79,4 @@ describe('LoginComponent', () => {
     }
   ));*/
 });
+

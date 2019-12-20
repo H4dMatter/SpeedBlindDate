@@ -1,4 +1,4 @@
-/*import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from '../login/login.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -76,4 +76,4 @@ describe('RegisterComponent', () => {
       expect(location.path()).toBe('/');
     }
   ));
-});*/
+});
